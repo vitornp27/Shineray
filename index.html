@@ -153,7 +153,7 @@
   </div>
   <div class="conversion-block visit-block" id="visite-loja">
     <div class="conversion-block-head"><div><span class="conversion-kicker">04 / PERTO DE VOCÊ</span><h3>Visite a loja e faça um Test Ride</h3></div><p>Venha conhecer os modelos de perto e converse com nossa equipe.</p></div>
-    <div class="visit-grid"><div class="visit-address"><span class="visit-pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><h4>Shineray Poços de Caldas</h4><address>Av. João Pinheiro, 99 - Centro<br>Poços de Caldas - MG, 37701-880</address><p><strong>Horários:</strong><br>Segunda - Sexta: 09h00 às 18h00<br>Sábados: 09h00 às 13h00</p><div class="map-actions"><a href="https://www.google.com/maps/search/?api=1&amp;query=Av.+Jo%C3%A3o+Pinheiro,+99+-+Centro,+Po%C3%A7os+de+Caldas+-+MG,+37701-880" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-7.2 8-13a8 8 0 1 0-16 0c0 5.8 8 13 8 13Z"/><circle cx="12" cy="9" r="2.5"/></svg>Abrir no Google Maps</a><a href="https://waze.com/ul?q=Av.%20Jo%C3%A3o%20Pinheiro%2C%2099%20-%20Centro%2C%20Po%C3%A7os%20de%20Caldas%20-%20MG%2C%2037701-880&amp;navigate=yes" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-9 9v2h3l2 4h8l2-4h3v-2a9 9 0 0 0-9-9Z"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M9 14c2 2 4 2 6 0"/></svg>Abrir no Waze</a></div></div><div class="visit-cta"><span>UM CONVITE PARA CONHECER DE PERTO</span><h4>Sinta a experiência<br>antes de escolher.</h4><p>Consulte a disponibilidade do modelo e agende seu Test Ride.</p><a class="button red" id="testRideWhatsapp" href="#contato" target="_blank" rel="noopener noreferrer">Agendar Test Ride no WhatsApp <span aria-hidden="true">↗</span></a></div></div>
+    <div class="visit-grid"><div class="visit-address"><span class="visit-pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><h4>Shineray Poços de Caldas</h4><address>Av. João Pinheiro, 99 - Centro<br>Poços de Caldas - MG, 37701-880</address><p><strong>Horários:</strong><br>Segunda - Sexta: 09h00 às 18h00<br>Sábados: 09h00 às 13h00</p><div class="map-actions"><a href="https://www.google.com/maps/search/?api=1&amp;query=Av.+Jo%C3%A3o+Pinheiro,+99+-+Centro,+Po%C3%A7os+de+Caldas+-+MG,+37701-880" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-7.2 8-13a8 8 0 1 0-16 0c0 5.8 8 13 8 13Z"/><circle cx="12" cy="9" r="2.5"/></svg>Abrir no Google Maps</a><a href="https://waze.com/ul?q=Av.%20Jo%C3%A3o%20Pinheiro%2C%2099%20-%20Centro%2C%20Po%C3%A7os%20de%20Caldas%20-%20MG%2C%2037701-880&amp;navigate=yes" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-9 9v2h3l2 4h8l2-4h3v-2a9 9 0 0 0-9-9Z"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M9 14c2 2 4 2 6 0"/></svg>Abrir no Waze</a></div></div><div class="visit-cta"><span>UM CONVITE PARA CONHECER DE PERTO</span><h4>Sinta a experiência<br>antes de escolher.</h4><p>Consulte a disponibilidade do modelo e agende seu Test Ride.</p><a class="button red" id="testRideWhatsapp" href="#contato" target="_blank" rel="noopener noreferrer">Agendar Test Ride no WhatsApp <span aria-hidden="true">↗</span></a><div class="service-wa-actions"><a class="button outline-dark" href="https://wa.me/5535998174929?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20revis%C3%A3o%20para%20minha%20moto%20Shineray." target="_blank" rel="noopener noreferrer">Agende sua revisão <span aria-hidden="true">↗</span></a><a class="button outline-dark" href="https://wa.me/5535998174929?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento%20de%20pe%C3%A7as%20para%20minha%20moto%20Shineray." target="_blank" rel="noopener noreferrer">Orçamento de peças <span aria-hidden="true">↗</span></a></div></div></div>
   </div>
 </section>
 
@@ -335,12 +335,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Escape' && !overlay.hidden) fecharModal();
     });
 
-    // Interceptação em fase de captura (roda antes de app.js / conversion.js / catalog.js)
     document.addEventListener('click', (e) => {
       const target = e.target.closest('a, button');
       if (!target || overlay.contains(target)) return;
 
-      // 1. Botão do Simulador Financeiro
       if (target.id === 'financeWhatsapp') {
         e.preventDefault();
         e.stopPropagation();
@@ -364,7 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // 2. Botões "Quero essa no WhatsApp" no Comparador
       const compareCard = target.closest('.compare-card');
       if (compareCard && (target.classList.contains('compare-wa') || /whatsapp/i.test(target.textContent || '') || /wa\.me|whatsapp/i.test(target.getAttribute('href') || ''))) {
         e.preventDefault();
@@ -380,7 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // 3. Botões de WhatsApp dentro dos cards do catálogo ou modal de detalhes do produto
       const inProductDialog = target.closest('#productDialog');
       const inCatalogCard = target.closest('.model-card');
       const isWaAction =
@@ -407,7 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, true);
 
-    // 4. Formulário de contato quando "Opções de financiamento" estiver selecionado
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
       contactForm.addEventListener('submit', (e) => {
@@ -427,7 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, true);
     }
 
-    // Máscara de CPF: 000.000.000-00
     cpfInput.addEventListener('input', (e) => {
       let v = e.target.value.replace(/\D/g, '').slice(0, 11);
       v = v.replace(/(\d{3})(\d)/, '$1.$2');
@@ -438,7 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cpfError.classList.remove('is-visible');
     });
 
-    // Máscara de WhatsApp: (00) 00000-0000
     whatsInput.addEventListener('input', (e) => {
       let v = e.target.value.replace(/\D/g, '').slice(0, 11);
       if (v.length > 10) {
