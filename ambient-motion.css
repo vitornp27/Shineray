@@ -1,0 +1,25 @@
+/* Contained zoom. All photographic effects scale together, including the lights. */
+.detail-media{position:absolute;inset:0;transform-origin:50% 50%;transition:transform .8s cubic-bezier(.2,.7,.2,1)}.detail-media>img{display:block;width:100%;height:100%;aspect-ratio:auto;object-fit:fill}.detail-visual{overflow:hidden}.detail-media .detail-fx{inset:0;width:100%;height:100%}
+#catalogGrid .model-img{overflow:hidden;border-radius:8px;isolation:isolate}#catalogGrid .model-img img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}.machine-stage,.spin-stage{overflow:hidden}.machine-frame{transition:transform .18s ease-out,scale .85s cubic-bezier(.2,.7,.2,1)}.spin-stage img{transition:scale .85s cubic-bezier(.2,.7,.2,1)}
+/* Deliberately restrained card elevation, without shifting surrounding content. */
+.quiz-shell,.catalog-tools,.dash,.detail-photo,.result-card{transition:translate .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}.result-card{border-radius:8px}
+@media(hover:hover) and (pointer:fine){
+ #catalogGrid .model-card:hover .model-img img{transform:scale(1.09)}
+ .detail-visual:hover .detail-media{transform:scale(1.065)}
+ .machine-stage:hover .machine-frame{scale:1.035}
+ .spin-stage:hover img{scale:1.045}
+ #catalogGrid .model-card:hover{transform:translateY(-7px);border-color:#d7192066;box-shadow:0 18px 42px #17171913,0 0 0 1px #d7192012}
+ .quiz-shell:hover,.catalog-tools:hover{translate:0 -5px;border-color:#d7192055;box-shadow:0 18px 42px #1717190e,0 0 0 1px #d7192010}
+ .dash:hover,.detail-photo:hover{translate:0 -5px;border-color:#f04b5266;box-shadow:0 18px 40px #0004,0 0 0 1px #d7192020}
+ .result-card:hover{translate:0 -4px;box-shadow:0 10px 28px #1717190c,0 0 0 1px #d7192040}
+ .detail-list .detail:hover{border-top-color:#f04b5280}
+}
+#catalogGrid .model-card:focus-within,.quiz-shell:focus-within,.catalog-tools:focus-within{border-color:#d7192066;box-shadow:0 10px 32px #1717190b,0 0 0 1px #d7192020}
+/* Slow studio lighting uses only reds and graphite from the approved palette. */
+.ambient-glow{position:absolute;inset:-15%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 78% 30%,#d7192040 0,transparent 43%),radial-gradient(ellipse at 30% 70%,#721c2930 0,transparent 54%),linear-gradient(120deg,#09090b0a,#641d2620 53%,#17171900);animation:ambientGradient 24s ease-in-out infinite alternate;transform-origin:center;opacity:.55}
+@keyframes ambientGradient{0%{transform:translate3d(-2%,-2%,0) scale(1);opacity:.38}50%{transform:translate3d(2%,1%,0) scale(1.04);opacity:.78}100%{transform:translate3d(-1%,3%,0) scale(1.08);opacity:.48}}
+.ambient-symbols{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}.ambient-glyph{position:absolute;display:block;width:19px;height:19px;opacity:.42;animation:ambientFloat 7s ease-in-out infinite;pointer-events:none}.glyph-cross{left:48%;top:19%}.glyph-cross::before,.glyph-cross::after{content:'';position:absolute;background:#ffffffa0;border-radius:1px}.glyph-cross::before{width:19px;height:1px;top:9px}.glyph-cross::after{height:19px;width:1px;left:9px}.glyph-ring{right:9%;top:57%;border:1px solid #ed505780;border-radius:50%;width:26px;height:26px;animation-duration:9s;animation-delay:-3s}.glyph-diamond{left:38%;bottom:21%;width:13px;height:13px;border:1px solid #ffffff70;rotate:45deg;animation-duration:8s;animation-delay:-5s}.glyph-small{left:63%;top:72%;scale:.65;animation-duration:6s;animation-delay:-2s;opacity:.3}
+@keyframes ambientFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-12px,0)}}
+.hero.motion-resting .ambient-glow,.hero.motion-resting .ambient-glyph{animation-play-state:paused}
+@media(max-width:700px){.ambient-glow{opacity:.45}.glyph-cross{left:87%;top:33%;scale:.75}.glyph-ring{right:9%;top:68%;width:18px;height:18px;opacity:.28}.glyph-diamond,.glyph-small{display:none}}
+@media(prefers-reduced-motion:reduce){.ambient-glow,.ambient-glyph{animation:none!important}.detail-media,.machine-frame,.spin-stage img,#catalogGrid .model-img img{transition:none!important}.detail-visual:hover .detail-media,#catalogGrid .model-card:hover .model-img img{transform:none!important}.machine-stage:hover .machine-frame,.spin-stage:hover img{scale:1!important}.quiz-shell,.catalog-tools,.dash,.detail-photo,.result-card{translate:none!important;transition:none!important}#catalogGrid .model-card:hover{transform:none!important}}

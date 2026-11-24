@@ -1,0 +1,11 @@
+/* SHI 175 delivers the brand once on arrival. */
+header>.brand{position:relative;z-index:2;animation:brand-delivered 2.7s cubic-bezier(.22,.68,.18,1) both}
+.brand-delivery{position:absolute;inset:0;overflow:hidden;pointer-events:none;isolation:isolate}
+.delivery-bike{position:absolute;left:calc(4% - 112px);top:7px;width:110px;height:86px;animation:bike-delivery 3.25s cubic-bezier(.22,.68,.18,1) both;opacity:0}
+.delivery-bike img{width:110px;height:86px;object-fit:contain;filter:drop-shadow(0 5px 5px #0008)}
+.delivery-light{position:absolute;left:10px;top:32px;width:25px;height:8px;border-radius:50%;background:#fff7ce;filter:blur(5px);box-shadow:-12px 0 20px 5px #fff6bd66}
+.delivery-trail{position:absolute;left:90%;top:65%;width:55px;height:1px;background:linear-gradient(90deg,var(--red),transparent);box-shadow:12px -7px 0 #cf352c55,20px 7px 0 #cf352c33}
+@keyframes brand-delivered{0%,8%{opacity:0;transform:translateX(min(55vw,600px))}18%{opacity:1}80%,100%{opacity:1;transform:translateX(0)}}
+@keyframes bike-delivery{0%,5%{opacity:0;transform:translateX(min(55vw,600px))}15%{opacity:1}66%{opacity:1;transform:translateX(0)}82%{opacity:1;transform:translateX(-35px)}100%{opacity:0;transform:translateX(-150px)}}
+@media(max-width:650px){.delivery-bike{left:calc(6% - 97px);top:7px;width:95px;height:72px}.delivery-bike img{width:95px;height:72px}.delivery-light{top:27px;left:9px}.delivery-trail{width:35px}}
+@media(prefers-reduced-motion:reduce){header>.brand{animation:none}.brand-delivery{display:none}}

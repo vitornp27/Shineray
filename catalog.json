@@ -1,0 +1,550 @@
+[
+  {
+    "id": "phoenix-50",
+    "name": "PHOENIX 50 S",
+    "category": "Ciclomotores",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "gears",
+    "cc": "47,9 cc",
+    "price": 10990,
+    "image": "assets/catalog/phoenix-50.webp",
+    "source": "https://www.shineray.com.br/produto/phoenix-50/",
+    "specs": [
+      "Cilindrada: 47,9 cc",
+      "Potência máxima: 5,6 CV / 8500 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "phoenix-50-efi",
+    "name": "PHOENIX 50 EFI",
+    "category": "Ciclomotores",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "gears",
+    "cc": "47,6 cc",
+    "price": 11990,
+    "image": "assets/catalog/phoenix-50-efi.webp",
+    "source": "https://www.shineray.com.br/produto/phoenix-50-efi/",
+    "specs": [
+      "Cilindrada: 47,6 cc",
+      "Potência máxima: 6,79 CV / 8000 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "jet-50",
+    "name": "JET 50S",
+    "category": "Ciclomotores",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "gears",
+    "cc": "49,4 cc",
+    "price": 12990,
+    "image": "assets/catalog/jet-50.webp",
+    "source": "https://www.shineray.com.br/produto/jet-50/",
+    "specs": [
+      "Cilindrada: 49,4 cc",
+      "Potência máxima: 2,71 CV / 5.000 RPM",
+      "Peso líquido: 91kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "jet-125",
+    "name": "JET 125 SS",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "gears",
+    "cc": "123,67 cc",
+    "price": 13690,
+    "image": "assets/catalog/jet-125.webp",
+    "source": "https://www.shineray.com.br/produto/jet-125/",
+    "specs": [
+      "Cilindrada: 123,67 cc",
+      "Potência máxima: 8,15 CV / 7.500 RPM",
+      "Peso líquido: 92kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "urban-lite",
+    "name": "URBAN LITE 150",
+    "category": "Scooters",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "automatic",
+    "cc": "149,48 cc",
+    "price": 14490,
+    "image": "assets/catalog/urban-lite.webp",
+    "source": "https://www.shineray.com.br/produto/urban-lite/",
+    "specs": [
+      "Cilindrada: 149,48 cc",
+      "Potência máxima: 13,5 cv / 7500 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "urban-150",
+    "name": "URBAN 150 EFI",
+    "category": "Scooters",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "automatic",
+    "cc": "149 cc",
+    "price": null,
+    "image": "assets/catalog/urban-150.webp",
+    "source": "https://www.shineray.com.br/produto/urban-150/",
+    "specs": [
+      "Cilindrada: 149 cc",
+      "Potência máxima: 12,9 cv / 8500 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "free-150",
+    "name": "FREE 150",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "manual",
+    "cc": "149 cc",
+    "price": 14990,
+    "image": "assets/catalog/free-150.webp",
+    "source": "https://www.shineray.com.br/produto/free-150/",
+    "specs": [
+      "Cilindrada: 149 cc",
+      "Potência máxima: 11,96 cv / 8.500 rpm"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "jet-125ss-efi",
+    "name": "JET 125 EFI",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "gears",
+    "cc": "123,67 cc",
+    "price": 15590,
+    "image": "assets/catalog/jet-125ss-efi.webp",
+    "source": "https://www.shineray.com.br/produto/jet-125ss-efi/",
+    "specs": [
+      "Cilindrada: 123,67 cc",
+      "Potência máxima: 8,15 CV / 7.500 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "rio-125-efi",
+    "name": "RIO 125 EFI",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "gears",
+    "cc": "123,67 cc",
+    "price": 15590,
+    "image": "assets/catalog/rio-125-efi.webp",
+    "source": "https://www.shineray.com.br/produto/rio-125-efi/",
+    "specs": [
+      "Cilindrada: 123,67 cc",
+      "Potência máxima: 8 CV / 8000 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "shi-170-cs",
+    "name": "SHI 170",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "manual",
+    "cc": "169,30 cc",
+    "price": 15690,
+    "image": "assets/catalog/shi-170-cs.webp",
+    "source": "https://www.shineray.com.br/produto/shi-170-cs/",
+    "specs": [
+      "Cilindrada: 169,30 cc",
+      "Potência máxima: 13,59 CV / 8.000 RPM",
+      "Peso líquido: 104kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "jef-150s-efi",
+    "name": "JEF 150s EFI",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "manual",
+    "cc": "149 cc",
+    "price": 16690,
+    "image": "assets/catalog/jef-150s-efi.webp",
+    "source": "https://www.shineray.com.br/produto/jef-150s-efi/",
+    "specs": [
+      "Cilindrada: 149 cc",
+      "Potência máxima: 13,5 CV / 7.500 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "jef-170",
+    "name": "JEF 170",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "manual",
+    "cc": "169,30 cc",
+    "price": 16990,
+    "image": "assets/catalog/jef-170.webp",
+    "source": "https://www.shineray.com.br/produto/jef-170/",
+    "specs": [
+      "Cilindrada: 169,30 cc",
+      "Potência máxima: 13,59 CV / 8.000 RPM",
+      "Peso líquido: 122kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-150s",
+    "name": "SBM 150S",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "manual",
+    "cc": "149,05 cc",
+    "price": 18290,
+    "image": "assets/catalog/sbm-150s.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-150/",
+    "specs": [
+      "Cilindrada: 149,05 cc",
+      "Potência máxima: 12,34 CV / 8500 RPM",
+      "Peso líquido: 125kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "shi-175",
+    "name": "SHI 175 S",
+    "category": "Trail",
+    "power": "combustion",
+    "terrain": "mixed",
+    "gear": "manual",
+    "cc": "175,11 cc",
+    "price": 18890,
+    "image": "assets/catalog/shi-175.webp",
+    "source": "https://www.shineray.com.br/produto/shi-175/",
+    "specs": [
+      "Cilindrada: 175,11 cc",
+      "Potência máxima: 15,63 CV / 8500 RPM",
+      "Peso líquido: 129kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "shi-175s-efi",
+    "name": "SHI 175s EFI",
+    "category": "Trail",
+    "power": "combustion",
+    "terrain": "mixed",
+    "gear": "manual",
+    "cc": "175,11 cc",
+    "price": 20490,
+    "image": "assets/catalog/shi-175s-efi.webp",
+    "source": "https://www.shineray.com.br/produto/shi-175s-efi/",
+    "specs": [
+      "Cilindrada: 175,11 cc",
+      "Potência máxima: 15,63 CV / 8500 RPM",
+      "Peso líquido: 129kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "250f",
+    "name": "250F FLASH",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "manual",
+    "cc": "248,92 cc",
+    "price": 21990,
+    "image": "assets/catalog/250f.webp",
+    "source": "https://www.shineray.com.br/produto/250f/",
+    "specs": [
+      "Cilindrada: 248,92 cc",
+      "Potência máxima: 27,9 CV / 9500 RPM",
+      "Peso líquido: 137kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "storm-200-efi",
+    "name": "STORM 200 EFI",
+    "category": "Trail",
+    "power": "combustion",
+    "terrain": "mixed",
+    "gear": "manual",
+    "cc": "198,1 cc",
+    "price": 24790,
+    "image": "assets/catalog/storm-200-efi.webp",
+    "source": "https://www.shineray.com.br/produto/storm-200/",
+    "specs": [
+      "Cilindrada: 198,1 cc",
+      "Potência máxima: 20,4 CV / 9000 RPM",
+      "Peso líquido: 153kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "denver-250",
+    "name": "DENVER 250",
+    "category": "Clássicas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "248,92 cc",
+    "price": 24990,
+    "image": "assets/catalog/denver-250.webp",
+    "source": "https://www.shineray.com.br/produto/denver/",
+    "specs": [
+      "Cilindrada: 248,92 cc",
+      "Potência máxima: 19 CV / 8000 RPM",
+      "Peso líquido: 178kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "shi-250",
+    "name": "SHI 250",
+    "category": "Trail",
+    "power": "combustion",
+    "terrain": "mixed",
+    "gear": "manual",
+    "cc": "249,9 cc",
+    "price": 24990,
+    "image": "assets/catalog/shi-250.webp",
+    "source": "https://www.shineray.com.br/produto/shi-250/",
+    "specs": [
+      "Cilindrada: 249,9 cc",
+      "Potência máxima: 19,3 CV / 8000 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-iron-250",
+    "name": "SBM IRON 250",
+    "category": "Clássicas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "249,60 cc",
+    "price": 25490,
+    "image": "assets/catalog/sbm-iron-250.webp",
+    "source": "https://www.shineray.com.br/produto/iron/",
+    "specs": [
+      "Cilindrada: 249,60 cc",
+      "Potência máxima: 27,67 CV / 9000 RPM",
+      "Peso líquido: 165kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-250s",
+    "name": "SBM 250S",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "city",
+    "gear": "manual",
+    "cc": "249 cc",
+    "price": 25890,
+    "image": "assets/catalog/sbm-250s.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-250s/",
+    "specs": [
+      "Cilindrada: 249 cc",
+      "Potência máxima: 27,5 CV / 9500 RPM",
+      "Peso líquido: 145kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-250t",
+    "name": "SBM 250T",
+    "category": "Trail",
+    "power": "combustion",
+    "terrain": "mixed",
+    "gear": "manual",
+    "cc": "249 cc",
+    "price": 26990,
+    "image": "assets/catalog/sbm-250t.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-250t/",
+    "specs": [
+      "Cilindrada: 249 cc",
+      "Potência máxima: 30,8 CV / 9000 RPM",
+      "Peso líquido: 128kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "shi-400sc",
+    "name": "SHI 400 SC",
+    "category": "Clássicas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "399,7 cc",
+    "price": 26990,
+    "image": "assets/catalog/shi-400sc.webp",
+    "source": "https://www.shineray.com.br/produto/shi-400sc/",
+    "specs": [
+      "Cilindrada: 399,7 cc",
+      "Potência máxima: 26,5 CV / 7000 RPM",
+      "Peso líquido: 155kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "titanium-250",
+    "name": "TITANIUM 250",
+    "category": "Clássicas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "248,92 cc",
+    "price": 28990,
+    "image": "assets/catalog/titanium-250.webp",
+    "source": "https://www.shineray.com.br/produto/titanium/",
+    "specs": [
+      "Cilindrada: 248,92 cc",
+      "Potência máxima: 19 CV / 8000 RPM"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "denver-400",
+    "name": "DENVER 400",
+    "category": "Clássicas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "397 cc",
+    "price": 33990,
+    "image": "assets/catalog/denver-400.webp",
+    "source": "https://www.shineray.com.br/produto/denver-400-2/",
+    "specs": [
+      "Cilindrada: 397 cc",
+      "Potência máxima: 39,43 CV / 8500 RPM",
+      "Peso líquido: 190kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-400s",
+    "name": "SBM 400S",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "399,73 cc",
+    "price": 36200,
+    "image": "assets/catalog/sbm-400s.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-400/",
+    "specs": [
+      "Cilindrada: 399,73 cc",
+      "Potência máxima: 41,46 CV / 9000 RPM",
+      "Peso líquido: 167kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-400-ss",
+    "name": "SBM 400 SS",
+    "category": "Trail",
+    "power": "combustion",
+    "terrain": "mixed",
+    "gear": "manual",
+    "cc": "378 cc",
+    "price": 39990,
+    "image": "assets/catalog/sbm-400-ss.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-400ss-2/",
+    "specs": [
+      "Cilindrada: 378 cc",
+      "Potência máxima: 45,5 CV / 9500 RPM",
+      "Peso líquido: 201kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-600",
+    "name": "SBM 600",
+    "category": "Clássicas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "554 cc",
+    "price": 39990,
+    "image": "assets/catalog/sbm-600.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-600/",
+    "specs": [
+      "Cilindrada: 554 cc",
+      "Potência máxima: 56,1 CV / 10.500 RPM",
+      "Peso líquido: 194kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-600t",
+    "name": "SBM 600T",
+    "category": "Trail",
+    "power": "combustion",
+    "terrain": "mixed",
+    "gear": "manual",
+    "cc": "554 cc",
+    "price": 48990,
+    "image": "assets/catalog/sbm-600t.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-600t/",
+    "specs": [
+      "Cilindrada: 554 cc",
+      "Potência máxima: 56 CV / 8.250 RPM",
+      "Peso líquido: 198kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-600v",
+    "name": "SBM 600V",
+    "category": "Clássicas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "561,9 cc",
+    "price": 53490,
+    "image": "assets/catalog/sbm-600v.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-600v/",
+    "specs": [
+      "Cilindrada: 561,9 cc",
+      "Potência máxima: 68,7 CV / 10.500 RPM",
+      "Peso líquido: 204kg"
+    ],
+    "consulted": "2026-11-24"
+  },
+  {
+    "id": "sbm-600-rc",
+    "name": "SBM 600 RC",
+    "category": "Urbanas",
+    "power": "combustion",
+    "terrain": "road",
+    "gear": "manual",
+    "cc": "600 cc",
+    "price": 53990,
+    "image": "assets/catalog/sbm-600-rc.webp",
+    "source": "https://www.shineray.com.br/produto/sbm-600rc/",
+    "specs": [
+      "Cilindrada: 600 cc",
+      "Potência máxima: 88,4 CV / 10.500 RPM",
+      "Peso líquido: 213kg"
+    ],
+    "consulted": "2026-11-24"
+  }
+]

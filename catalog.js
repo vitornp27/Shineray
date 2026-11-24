@@ -1,0 +1,56 @@
+import {recommend} from './recommendations.mjs';
+const $=id=>document.getElementById(id),wa=message=>'https://wa.me/'+(window.SHINERAY_WHATSAPP_NUMBER||'5535998717094')+'?text='+encodeURIComponent(message),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let products=[],limit=9,step=0,answers=Array(5).fill(null),lastFocused=null;
+const questions=[
+ {title:'O que move o seu dia?',options:[['commute','Trabalho, estudo e rotina','Quero uma companheira para o dia a dia.'],['work','Trabalho na rua','Pretendo usar a moto com frequência.'],['road','Passeios e novos destinos','Quero sair da rotina e explorar.'],['short','Trajetos curtos','Preciso de mobilidade perto de casa.']]},
+ {title:'Como é o seu caminho?',options:[['city','Principalmente asfalto','Cidade, avenidas e ruas pavimentadas.'],['mixed','Asfalto e estrada de terra','Busco o perfil de uma moto trail.']]},
+ {title:'Qual energia combina com você?',options:[['combustion','Combustão','Prefiro abastecer no posto.'],['electric','Elétrica','Quero explorar opções com recarga.'],['any','Quero comparar as duas','Ainda estou descobrindo.']]},
+ {title:'Como você prefere pilotar?',options:[['automatic','Sem trocar marchas','Prefiro a praticidade de uma automática.'],['gears','Com troca de marchas','Quero comandar as trocas.'],['any','Sem preferência','Mostre as opções que combinam comigo.']]},
+ {title:'Em que momento você está?',options:[['first','Escolhendo a primeira moto','Quero conhecer as opções com calma.'],['experienced','Já tenho experiência','Estou pensando na minha próxima moto.']]}
+];
+const copy={Urbanas:'Para descobrir um novo ritmo na cidade.',Trail:'Seu caminho, com espírito de aventura.',Scooters:'Praticidade para os seus trajetos.',Clássicas:'Personalidade em cada detalhe.',Ciclomotores:'Conheça as opções de baixa cilindrada.','Motos elétricas':'Uma nova forma de se movimentar.','Mobilidade elétrica':'Explore a mobilidade elétrica urbana.'};
+const normalized=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+function bindDetails(root){root.querySelectorAll('[data-product]').forEach(b=>b.addEventListener('click',()=>showProduct(b.dataset.product,b)))}
+function card(p,i){return `<article class="model-card"><div class="model-meta"><span>${String(i+1).padStart(2,'0')} / ${esc(p.category.toUpperCase())}</span><span>↗</span></div><div class="model-img"><img src="${esc(p.image)}" width="500" height="500" loading="lazy" alt="${esc(p.name)} — imagem oficial Shineray"></div><h3>${esc(p.name)}</h3><p>${esc(copy[p.category])}</p><span class="spec-tag">${esc(p.cc||p.specs.find(s=>s.startsWith('Potência'))||'Elétrica')} · ${p.power==='electric'?'ELÉTRICA':'COMBUSTÃO'}</span><div class="model-actions"><button data-product="${esc(p.id)}" aria-label="Ver detalhes da ${esc(p.name)}">Ver detalhes <span>+</span></button><a href="${wa(`Olá! Tenho interesse na ${p.name}. Gostaria de consultar disponibilidade, cores e valor na loja de Poços de Caldas.`)}" target="_blank" rel="noopener">Consultar ↗</a></div></article>`}
+function renderCatalog(){const term=normalized($('catalogSearch').value.trim()),category=$('category').value;const filtered=products.filter(p=>(category==='all'||p.category===category)&&normalized(p.name+' '+p.category+' '+(p.power==='electric'?'elétrica':'combustão')).includes(term));$('catalogGrid').innerHTML=filtered.slice(0,limit).map(card).join('');$('catalogCount').textContent=`${filtered.length} ${filtered.length===1?'modelo encontrado':'modelos encontrados'} · exibindo ${Math.min(limit,filtered.length)}`;$('catalogEmpty').hidden=filtered.length>0;$('loadMore').hidden=limit>=filtered.length;$('resetFilters').hidden=!term&&category==='all';bindDetails($('catalogGrid'));}
+function resetFilters(){$('catalogSearch').value='';$('category').value='all';limit=9;renderCatalog();$('catalogSearch').focus()}
+$('catalogSearch').addEventListener('input',()=>{limit=9;renderCatalog()});$('category').addEventListener('change',()=>{limit=9;renderCatalog()});$('resetFilters').addEventListener('click',resetFilters);$('clearSearch').addEventListener('click',resetFilters);$('loadMore').addEventListener('click',()=>{const previous=limit;limit+=9;renderCatalog();$('catalogGrid').querySelectorAll('[data-product]')[previous]?.focus({preventScroll:true})});
+function showProduct(id,trigger){const p=products.find(p=>p.id===id);if(!p)return;lastFocused=trigger;$('productDetail').innerHTML=`<div class="product-dialog-grid"><img src="${esc(p.image)}" width="500" height="500" alt="${esc(p.name)}"><div><p class="section-label">${esc(p.category.toUpperCase())}</p><h2 id="productTitle">${esc(p.name)}</h2><p class="source-stamp">FICHA DO FABRICANTE · 22/10/2026</p><dl class="product-specs">${p.specs.map(s=>{const i=s.indexOf(':');return `<div><dt>${esc(i>=0?s.slice(0,i):'Informação')}</dt><dd>${esc(i>=0?s.slice(i+1).trim():s)}</dd></div>`}).join('')}</dl><a class="button red" href="${wa(`Olá! Quero conhecer a ${p.name}. Qual a disponibilidade e o valor em Poços de Caldas?`)}" target="_blank" rel="noopener">Consultar esta moto <span>↗</span></a><a class="product-source" href="${esc(p.source)}" target="_blank" rel="noopener">Ver ficha completa no fabricante ↗</a><p class="product-dialog-note">Cores, versões, valores e estoque local sob consulta. Especificações podem variar por versão. Autonomia de elétricos depende das condições de uso.</p></div></div>`;$('productDialog').showModal();document.body.style.overflow='hidden';}
+$('productDialog').querySelector('.dialog-close').addEventListener('click',()=>$('productDialog').close());$('productDialog').addEventListener('close',()=>{document.body.style.overflow='';lastFocused?.focus({preventScroll:true})});$('productDialog').addEventListener('click',e=>{if(e.target===$('productDialog')){const r=$('productDialog').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('productDialog').close()}});
+function focusQuestion(){$('quizContent').querySelector('h3')?.focus({preventScroll:true})}
+function renderQuestion(focus=false){const q=questions[step];$('quizContent').innerHTML=`<div class="quiz-progress" aria-label="Etapa ${step+1} de 5">${questions.map((_,i)=>`<span class="${i<=step?'done':''}"></span>`).join('')}</div><p class="quiz-step">PERGUNTA ${String(step+1).padStart(2,'0')} / 05</p><h3 class="quiz-question" tabindex="-1">${q.title}</h3><div class="quiz-options" role="group" aria-label="${q.title}">${q.options.map((o,i)=>`<button class="quiz-option" data-answer="${o[0]}" aria-pressed="${answers[step]===o[0]}"><small>${String(i+1).padStart(2,'0')}</small><span><strong>${o[1]}</strong><span class="option-desc">${o[2]}</span></span><i aria-hidden="true"></i></button>`).join('')}</div><div class="quiz-actions"><button class="quiz-back" ${step===0?'disabled':''}>← Voltar</button><button class="button red quiz-next" ${answers[step]===null?'disabled':''}>${step===4?'Ver minhas sugestões':'Próxima pergunta'} <span>→</span></button></div>`;$('quizContent').querySelectorAll('[data-answer]').forEach(b=>b.addEventListener('click',()=>{answers[step]=b.dataset.answer;$('quizContent').querySelectorAll('[data-answer]').forEach(a=>a.setAttribute('aria-pressed',String(a===b)));$('quizContent').querySelector('.quiz-next').disabled=false}));$('quizContent').querySelector('.quiz-back').addEventListener('click',()=>{step--;renderQuestion(true)});$('quizContent').querySelector('.quiz-next').addEventListener('click',()=>{if(!answers[step])return;if(step<4){step++;renderQuestion(true)}else renderResult()});if(focus)focusQuestion();}
+function restart(){step=0;answers=Array(5).fill(null);renderQuestion(true)}
+function renderResult(){const results=recommend(products,answers);if(typeof window.trackEvent==='function')window.trackEvent('quiz_complete',{modelo_recomendado:results[0]?.name||'sem_recomendacao'});const profile=answers.map((a,i)=>questions[i].options.find(o=>o[0]===a)[1]).join(' / ');const message=`Olá! Fiz o quiz da Shineray Poços de Caldas. Meu perfil: ${profile}. ${results.length?'Quero conhecer: '+results.map(p=>p.name).join(', ')+'.':'Gostaria de ajuda para escolher um modelo.'}`;$('quizContent').innerHTML=`<div class="quiz-result"><p class="quiz-step">SEU PRÓXIMO CAMINHO</p><h3 class="quiz-result-title" tabindex="-1">${results.length?'Vale começar por aqui.':'Vamos ajustar a escolha?'}</h3><p class="quiz-result-intro">${results.length?'Estas opções combinam com as preferências que você selecionou.':'Não encontramos no catálogo uma opção que reúna todas essas preferências. Refaça o quiz ou peça uma orientação à equipe.'}</p>${results.map((p,i)=>`<article class="result-card"><img src="${esc(p.image)}" width="105" height="105" alt="${esc(p.name)}"><div><span class="result-rank">${i===0?'PRIMEIRA SUGESTÃO':'OUTRA OPÇÃO'}</span><h4>${esc(p.name)}</h4><p>${p.reasons.map(esc).join(' ')}</p><button data-product="${esc(p.id)}">Ver detalhes ↗</button>${i===0?`<a class="button red quiz-model-whatsapp" href="${wa(`Olá! Fiz o quiz no site e minha recomendação foi a ${p.name}. Meu perfil: ${profile}. Quero simular condições.`)}" target="_blank" rel="noopener">Simular essa moto no WhatsApp <span>↗</span></a>`:''}</div></article>`).join('')}<p class="quiz-disclaimer">Sugestões por preferências, sem garantia de adequação ou disponibilidade. Confirme ergonomia, características e condições com a equipe antes de decidir.</p><a class="button red quiz-share" href="${wa(message)}" target="_blank" rel="noopener">Conversar sobre meu resultado <span>↗</span></a><button class="quiz-restart">Refazer o quiz ↻</button></div>`;bindDetails($('quizContent'));$('quizContent').querySelector('.quiz-restart').addEventListener('click',restart);focusQuestion();}
+async function init(attempt = 1) {
+  const maxAttempts = 3;
+  $('quizContent').innerHTML = '<p>Preparando seu quiz…</p>';
+
+  try {
+    const res = await fetch('./catalog.json', { cache: 'no-cache' });
+    if (!res.ok) throw Error('catalog');
+    products = await res.json();
+
+    const preferred = ['shi-175', 'urban-lite', 'jef-170', 'shi-250', 'jet-125ss-efi', 'shi-175s-efi'];
+    products.sort((a, b) => {
+      const aI = preferred.indexOf(a.id), bI = preferred.indexOf(b.id);
+      return (aI < 0 ? 99 : aI) - (bI < 0 ? 99 : bI) || a.name.localeCompare(b.name, 'pt-BR');
+    });
+
+    renderCatalog();
+    renderQuestion();
+    $('model').innerHTML =
+      '<option value="Ainda estou escolhendo">Ainda estou escolhendo</option>' +
+      products.map(p => `<option>${esc(p.name)}</option>`).join('') +
+      '<option>Outro modelo</option>';
+  } catch (e) {
+    if (attempt < maxAttempts) {
+      setTimeout(() => init(attempt + 1), 600 * attempt);
+      return;
+    }
+    $('catalogCount').textContent = 'Não foi possível carregar o catálogo agora.';
+    $('catalogGrid').innerHTML = '<p>Atualize a página ou <a href="https://wa.me/5535998717094" target="_blank" rel="noopener">consulte a equipe pelo WhatsApp</a>.</p>';
+    $('quizContent').innerHTML = '<p>O quiz precisa do catálogo para recomendar modelos.</p><button class="button red" id="retryCatalog">Tentar novamente</button>';
+    $('retryCatalog').addEventListener('click', () => init(1));
+  }
+}
+init();

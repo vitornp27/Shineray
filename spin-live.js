@@ -1,0 +1,13 @@
+(()=>{
+const stage=document.getElementById('spinStage'),img=document.getElementById('spinImage');
+// Light anchors in the original photographic coordinate system, one per view.
+const views=[
+[111,56,1,0,0,0],[117,56,1,0,0,0],[121,56,.95,0,0,0],[124,55,.85,0,0,0],[126,55,.7,0,0,0],[129,55,.35,0,0,0],[132,55,.12,49,50,.15],[0,0,0,50,50,.3],[0,0,0,53,50,.4],[0,0,0,63,50,.6],[0,0,0,72,50,.7],[0,0,0,81,50,.8],[0,0,0,90,50,.9],[0,0,0,101,50,1],[0,0,0,113,50,1],[0,0,0,126,50,1],[0,0,0,134,50,1],[0,0,0,143,50,.9],[0,0,0,151,50,.8],[0,0,0,156,50,.65],[0,0,0,158,50,.5],[0,0,0,155,50,.35],[0,0,0,149,50,.2],[60,55,.12,143,50,.1],[64,55,.35,0,0,0],[71,55,.6,0,0,0],[79,55,.8,0,0,0],[87,56,.95,0,0,0],[97,56,1,0,0,0]
+];
+const head=document.getElementById('spinHead'),tail=document.getElementById('spinTail'),a=document.getElementById('spinSignalA'),b=document.getElementById('spinSignalB'),power=document.getElementById('spinPower'),hazards=document.getElementById('spinHazards'),brake=document.getElementById('spinBrake'),status=document.getElementById('spinLiveStatus');
+let on=true,blink=true,braking=false;
+function place(){const n=Number(img.getAttribute('src').match(/spin-(\d+)/)?.[1]||5),v=views[n-1];head.setAttribute('transform',`translate(${v[0]} ${v[1]})`);head.style.opacity=v[2];tail.setAttribute('transform',`translate(${v[3]} ${v[4]})`);tail.style.opacity=v[5];const front=v[2]>0,x=front?v[0]:v[3],y=front?v[1]-6:v[4]+3,spread=front?7:6;[a,b].forEach((e,i)=>{e.setAttribute('cx',x+(i?spread:-spread));e.setAttribute('cy',y);e.style.opacity=front?v[2]:v[5]});}
+function update(){stage.classList.toggle('spin-on',on);stage.classList.toggle('spin-hazards',blink);stage.classList.toggle('spin-braking',braking);power.setAttribute('aria-pressed',on);power.textContent=on?'⏻ Desligar':'⏻ Ligar moto';hazards.disabled=brake.disabled=!on;hazards.setAttribute('aria-pressed',blink);hazards.textContent=blink?'Pisca-alerta ON':'Pisca-alerta OFF';brake.setAttribute('aria-pressed',braking);brake.textContent=braking?'Soltar freio':'Acionar freio';status.textContent=on?(braking?'● FREIO ACIONADO · LANTERNA INTENSA':'● MOTOR LIGADO · LUZES ATIVAS'):'○ MOTOR E LUZES DESLIGADOS';}
+power.addEventListener('click',()=>{on=!on;braking=false;update()});hazards.addEventListener('click',()=>{blink=!blink;update()});brake.addEventListener('click',()=>{braking=!braking;update()});
+img.addEventListener('load',place);stage.addEventListener('spinframe',place);let visible=false;const rest=()=>stage.classList.toggle('spin-resting',!visible||document.hidden);new IntersectionObserver(e=>{visible=e[0].isIntersecting;rest()},{threshold:.05}).observe(stage);document.addEventListener('visibilitychange',rest);place();update();
+})();

@@ -1,0 +1,15 @@
+
+.spin-machine{position:absolute;inset:0;pointer-events:none;z-index:2;transition:scale .85s ease}
+#spinStage .spin-machine #spinImage{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;scale:1!important}
+#spinLights{position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:visible;opacity:0;transition:opacity .25s;pointer-events:none}
+#spinStage.spin-on #spinLights{opacity:1}
+.spin-signals{opacity:0}.spin-on.spin-hazards .spin-signals{animation:spinSignalPulse 1.1s steps(1,end) infinite}
+.spin-braking #spinTail{filter:drop-shadow(0 0 3px #ff183b)}
+.spin-on .spin-machine{animation:spinIdle .16s linear infinite alternate}
+#spinStage.spin-resting .spin-machine,#spinStage.spin-resting .spin-signals{animation-play-state:paused}
+.spin-live-controls{max-width:760px;margin:0 auto 25px;padding:0 22px;text-align:center}.spin-live-controls>span{display:block;color:#f15d64;font:10px/1.6 'Space Mono',monospace;letter-spacing:1px;margin-bottom:16px}.spin-live-controls>div{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.spin-live-controls button{background:#ffffff08;border:1px solid #ffffff28;border-radius:8px;color:#eee;padding:12px 16px;font-size:12px;min-height:44px}.spin-live-controls button[aria-pressed=true]{border-color:#ec323c88;background:#b41b2426}.spin-live-controls button:disabled{opacity:.45}
+@keyframes spinSignalPulse{0%,48%{opacity:1}49%,100%{opacity:0}}
+@keyframes spinIdle{from{translate:0 -.15px}to{translate:.1px .15px}}
+@media(hover:hover) and (pointer:fine){.spin-stage:hover .spin-machine{scale:1.045}}
+@media(max-width:650px){.spin-machine{width:145%;left:-22.5%;right:auto}.spin-live-controls{margin-top:18px}.spin-live-controls button{padding:11px 12px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.spin-on .spin-machine,.spin-on.spin-hazards .spin-signals{animation:none}.spin-on.spin-hazards .spin-signals{opacity:1}.spin-stage:hover .spin-machine{scale:1}.spin-machine,#spinLights{transition:none}}
