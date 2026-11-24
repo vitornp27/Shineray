@@ -388,22 +388,13 @@
     update();
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initExperience);
-  } else {
-    initExperience();
-  }
-})();
-(() => {
   const initLgpd = () => {
     const banner = document.getElementById('lgpdBanner');
     const dialog = document.getElementById('lgpdDialog');
     if (!banner || !dialog) return;
 
     const STORAGE_KEY = 'shineray_lgpd_consent';
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if (!saved) {
+    if (!localStorage.getItem(STORAGE_KEY)) {
       banner.hidden = false;
     }
 
@@ -426,11 +417,15 @@
     });
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLgpd);
-  } else {
+  const start = () => {
+    initExperience();
     initLgpd();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
   }
 })();
-
 
