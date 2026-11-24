@@ -394,4 +394,43 @@
     initExperience();
   }
 })();
+(() => {
+  const initLgpd = () => {
+    const banner = document.getElementById('lgpdBanner');
+    const dialog = document.getElementById('lgpdDialog');
+    if (!banner || !dialog) return;
+
+    const STORAGE_KEY = 'shineray_lgpd_consent';
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if (!saved) {
+      banner.hidden = false;
+    }
+
+    const saveConsent = (level) => {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        level,
+        date: new Date().toISOString()
+      }));
+      banner.hidden = true;
+      document.dispatchEvent(new CustomEvent('shineray:lgpd-consent', { detail: { level } }));
+    };
+
+    document.getElementById('lgpdAccept')?.addEventListener('click', () => saveConsent('all'));
+    document.getElementById('lgpdEssential')?.addEventListener('click', () => saveConsent('essential'));
+    document.getElementById('openLgpdPolicy')?.addEventListener('click', () => dialog.showModal());
+    document.getElementById('closeLgpdDialog')?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLgpd);
+  } else {
+    initLgpd();
+  }
+})();
+
 

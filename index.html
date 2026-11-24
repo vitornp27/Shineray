@@ -524,7 +524,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 </script>
+<!-- Banner LGPD -->
+<div id="lgpdBanner" class="lgpd-banner" role="region" aria-label="Aviso de privacidade e cookies" hidden>
+  <div class="lgpd-content">
+    <p>
+      Usamos cookies essenciais e de medição para melhorar sua experiência e personalizar o atendimento. 
+      Ao continuar, você concorda com nossa <button type="button" class="lgpd-link" id="openLgpdPolicy">Política de Privacidade (LGPD)</button>.
+    </p>
+    <div class="lgpd-actions">
+      <button type="button" class="lgpd-btn secondary" id="lgpdEssential">Apenas essenciais</button>
+      <button type="button" class="lgpd-btn primary" id="lgpdAccept">Aceitar tudo</button>
+    </div>
+  </div>
+</div>
 
+<!-- Modal Política de Privacidade -->
+<dialog id="lgpdDialog" class="lgpd-dialog" aria-labelledby="lgpdTitle">
+  <button type="button" class="dialog-close" id="closeLgpdDialog" aria-label="Fechar política de privacidade">×</button>
+  <p class="section-label">PRIVACIDADE E PROTEÇÃO DE DADOS</p>
+  <h2 id="lgpdTitle">Política de Privacidade (LGPD)</h2>
+  <div class="lgpd-body">
+    <p>A <strong>Shineray Poços de Caldas</strong> respeita a sua privacidade e trata seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
+    
+    <h3>1. Dados coletados</h3>
+    <p>Coletamos apenas informações fornecidas voluntariamente por você (como nome, modelo de interesse ou respostas do quiz ao iniciar atendimento via WhatsApp) e dados técnicos de navegação para funcionamento do site.</p>
+    
+    <h3>2. Finalidade do uso</h3>
+    <p>Seus dados são utilizados exclusivamente para responder às suas solicitações de orçamento, agendamento de visita, atendimento comercial e melhoria da experiência na página.</p>
+    
+    <h3>3. Cookies</h3>
+    <p>Utilizamos cookies essenciais para o funcionamento dos recursos interativos e, mediante seu consentimento, cookies analíticos para entender quais modelos geram mais interesse.</p>
+    
+    <h3>4. Seus direitos</h3>
+    <p>Você pode solicitar a qualquer momento a confirmação, acesso, correção ou exclusão dos seus dados pessoais entrando em contato diretamente pelo nosso canal oficial de WhatsApp.</p>
+  </div>
+</dialog>
 </body></html>
 
 

@@ -19,3 +19,21 @@
 
 .braking .signal-left{left:52.5%;top:42.0%}
 .braking .signal-right{left:64.0%;top:42.2%}
+/* LGPD Banner & Modal */
+.lgpd-banner{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:980px;margin:auto;background:#161619f2;backdrop-filter:blur(10px);border:1px solid #ffffff22;border-left:3px solid #d71920;border-radius:6px;padding:16px 20px;color:#e4dfe2;box-shadow:0 16px 40px #0009}
+.lgpd-content{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.lgpd-content p{margin:0;font-size:12px;line-height:1.5;flex:1;min-width:240px}
+.lgpd-link,.lgpd-footer-link{background:none;border:0;padding:0;color:#ff5a60;text-decoration:underline;cursor:pointer;font:inherit}
+.lgpd-actions{display:flex;gap:8px;flex-shrink:0}
+.lgpd-btn{min-height:40px;padding:8px 16px;font-size:12px;border-radius:3px;cursor:pointer;border:1px solid transparent;transition:background .2s,border-color .2s}
+.lgpd-btn.primary{background:#d71920;color:#fff}
+.lgpd-btn.primary:hover{background:#b40d16}
+.lgpd-btn.secondary{background:transparent;color:#d6d0d3;border-color:#ffffff30}
+.lgpd-btn.secondary:hover{border-color:#fff;color:#fff}
+.lgpd-dialog{max-width:680px;background:#141417;color:#f1ecee;border:1px solid #ffffff1f;border-radius:6px}
+.lgpd-dialog .dialog-close{color:#fff}
+.lgpd-dialog h2{font-size:28px;margin:6px 0 18px}
+.lgpd-body h3{font-size:14px;color:#ff5a60;margin:18px 0 6px}
+.lgpd-body p{font-size:13px;line-height:1.6;color:#c7c0c4;margin:0}
+@media(max-width:650px){.lgpd-banner{left:10px;right:10px;bottom:10px;padding:14px}.lgpd-actions{width:100%}.lgpd-btn{flex:1}}
+
