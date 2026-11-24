@@ -1,5 +1,5 @@
 import {recommend} from './recommendations.mjs';
-const $=id=>document.getElementById(id),wa=message=>'https://wa.me/'+(window.SHINERAY_WHATSAPP_NUMBER||'5535998717094')+'?text='+encodeURIComponent(message),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id),wa=message=>'https://wa.me/'+(window.SHINERAY_WHATSAPP_NUMBER||'5535998174929')+'?text='+encodeURIComponent(message),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let products=[],limit=9,step=0,answers=Array(5).fill(null),lastFocused=null;
 const questions=[
  {title:'O que move o seu dia?',options:[['commute','Trabalho, estudo e rotina','Quero uma companheira para o dia a dia.'],['work','Trabalho na rua','Pretendo usar a moto com frequência.'],['road','Passeios e novos destinos','Quero sair da rotina e explorar.'],['short','Trajetos curtos','Preciso de mobilidade perto de casa.']]},
@@ -48,7 +48,7 @@ async function init(attempt = 1) {
       return;
     }
     $('catalogCount').textContent = 'Não foi possível carregar o catálogo agora.';
-    $('catalogGrid').innerHTML = '<p>Atualize a página ou <a href="https://wa.me/5535998717094" target="_blank" rel="noopener">consulte a equipe pelo WhatsApp</a>.</p>';
+    $('catalogGrid').innerHTML = '<p>Atualize a página ou <a href="https://wa.me/5535998174929" target="_blank" rel="noopener">consulte a equipe pelo WhatsApp</a>.</p>';
     $('quizContent').innerHTML = '<p>O quiz precisa do catálogo para recomendar modelos.</p><button class="button red" id="retryCatalog">Tentar novamente</button>';
     $('retryCatalog').addEventListener('click', () => init(1));
   }

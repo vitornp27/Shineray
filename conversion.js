@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const WHATSAPP = () => window.SHINERAY_WHATSAPP_NUMBER || '5535998717094';
+  const WHATSAPP = () => window.SHINERAY_WHATSAPP_NUMBER || '5535998174929';
 
   // Valores de referência atualizados conforme catálogo WhatsApp (R$).
   const PRECOS_BASE = {

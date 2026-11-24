@@ -9,6 +9,9 @@
       on: false,
       light: false,
       high: false,
+      left: false,
+      right: false,
+      hazard: false,
       sound: false,
       throttle: 0,
       brake: false
@@ -18,6 +21,9 @@
     const controls = [
       'headlight',
       'highbeam',
+      'leftSignal',
+      'rightSignal',
+      'hazard',
       'horn',
       'throttle',
       'brake'
@@ -88,6 +94,8 @@
 
     function update() {
       const motion = state.on && state.throttle > 0 && !state.brake;
+      const left = state.on && (state.left || state.hazard);
+      const right = state.on && (state.right || state.hazard);
 
       machineStage.classList.toggle('running', state.on);
       machineStage.classList.toggle('moving', motion);
@@ -116,9 +124,13 @@
 
       machineStage.classList.toggle('lights-on', state.on && state.light);
       machineStage.classList.toggle('high-on', state.on && state.high);
+      machineStage.classList.toggle('signal-l', left);
+      machineStage.classList.toggle('signal-r', right);
       machineStage.classList.toggle('braking', state.brake);
 
       if ($('dash')) $('dash').classList.toggle('active', state.on);
+      if ($('dashLeft')) $('dashLeft').classList.toggle('blink', left);
+      if ($('dashRight')) $('dashRight').classList.toggle('blink', right);
 
       if ($('speed')) {
         $('speed').textContent = String(Math.round(state.throttle * 0.6)).padStart(2, '0');
@@ -154,7 +166,11 @@
       });
 
       controls.forEach((id) => {
-        if ($(id)) $(id).disabled = !state.on;
+        const el = $(id);
+        if (el) {
+          el.disabled = !state.on;
+          if (state.on) el.removeAttribute('disabled');
+        }
       });
 
       press('ignition', state.on);
@@ -163,6 +179,9 @@
       }
       press('headlight', state.light, `Farol <span>${state.light ? 'ON' : 'OFF'}</span>`);
       press('highbeam', state.high, `Farol alto <span>${state.high ? 'ON' : 'OFF'}</span>`);
+      press('leftSignal', state.left || state.hazard);
+      press('rightSignal', state.right || state.hazard);
+      press('hazard', state.hazard, `Pisca-alerta <span>${state.hazard ? 'ON' : 'OFF'}</span>`);
       press('brake', state.brake, `${state.brake ? 'Soltar freio' : 'Acionar freio'} <span>■</span>`);
       press('sound', state.sound, `${state.sound ? 'Silenciar' : 'Ativar som'} <span>♪</span>`);
 
@@ -190,6 +209,9 @@
       if ($('throttle')) $('throttle').value = 0;
       state.light = state.on;
       state.high = false;
+      state.left = false;
+      state.right = false;
+      state.hazard = false;
       status(
         state.on
           ? 'Motor ligado. Farol aceso. Experimente os comandos.'
@@ -211,6 +233,30 @@
       state.high = !state.high;
       if (state.high) state.light = true;
       status(state.high ? 'Farol alto ativado.' : 'Farol alto desativado.');
+      update();
+    });
+
+    ['left', 'right'].forEach((side) => {
+      $(side + 'Signal')?.addEventListener('click', () => {
+        clearBrake();
+        state[side] = !state[side];
+        state[side === 'left' ? 'right' : 'left'] = false;
+        state.hazard = false;
+        status(
+          state[side]
+            ? `Seta ${side === 'left' ? 'esquerda' : 'direita'} ligada.`
+            : 'Setas desligadas.'
+        );
+        update();
+      });
+    });
+
+    $('hazard')?.addEventListener('click', () => {
+      clearBrake();
+      state.hazard = !state.hazard;
+      state.left = false;
+      state.right = false;
+      status(state.hazard ? 'Pisca-alerta ligado.' : 'Pisca-alerta desligado.');
       update();
     });
 
