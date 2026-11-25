@@ -251,3 +251,38 @@ header{background:rgba(11,11,13,.68)!important;backdrop-filter:blur(16px);-webki
     padding: 56px 5% 88px !important;
   }
 }
+
+/* Correcao de enquadramento das motos no catalogo (desktop e mobile) */
+#catalogGrid .model-img {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 220px !important;
+  padding: 10px !important;
+  overflow: hidden !important;
+  background: #f8f8f6;
+  border-radius: 14px;
+  margin: 10px 0 14px !important;
+}
+#catalogGrid .model-card .model-img img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  position: static !important;
+  display: block !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+#catalogGrid .model-card:hover .model-img img {
+  transform: scale(1.04) !important;
+}
+@media (max-width: 650px) {
+  #catalogGrid .model-img {
+    height: 145px !important;
+    padding: 6px !important;
+  }
+}
