@@ -345,6 +345,7 @@
       ).observe($('viewLive'));
     }
 
+    // Perspectiva 3D (mais nítida no celular e desktop)
     const frame = $('machineFrame');
     function perspective(x, y = 0) {
       if (!frame) return;
@@ -353,12 +354,12 @@
     }
 
     $('depth')?.addEventListener('input', () => {
-      perspective(Number($('depth').value) * 0.1);
+      perspective(Number($('depth').value) * 0.28);
     });
 
     $('resetDepth')?.addEventListener('click', () => {
       if ($('depth')) $('depth').value = 0;
-      perspective(0);
+      perspective(0, 0);
     });
 
     if (matchMedia('(pointer:fine)').matches) {
@@ -368,13 +369,27 @@
         cancelAnimationFrame(tiltFrame);
         tiltFrame = requestAnimationFrame(() => {
           perspective(
-            ((e.clientX - r.left - r.width / 2) / r.width) * 10,
-            -((e.clientY - r.top - r.height / 2) / r.height) * 6
+            ((e.clientX - r.left - r.width / 2) / r.width) * 18,
+            -((e.clientY - r.top - r.height / 2) / r.height) * 8
           );
         });
       });
       machineStage.addEventListener('pointerleave', () => {
-        perspective(Number($('depth')?.value || 0) * 0.1);
+        perspective(Number($('depth')?.value || 0) * 0.28, 0);
+      });
+    }
+
+    // Garantia extra para o slider 360° atualizar a imagem
+    const angleInput = $('angle');
+    const spinImage = $('spinImage');
+    if (angleInput && spinImage) {
+      angleInput.addEventListener('input', () => {
+        const val = Math.min(29, Math.max(1, Number(angleInput.value) || 1));
+        const nextSrc = `assets/spin-${val}.webp`;
+        if (spinImage.getAttribute('src') !== nextSrc) {
+          spinImage.src = nextSrc;
+        }
+        angleInput.setAttribute('aria-valuetext', `Ângulo ${val} de 29`);
       });
     }
 
