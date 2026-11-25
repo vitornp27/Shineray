@@ -286,3 +286,62 @@ header{background:rgba(11,11,13,.68)!important;backdrop-filter:blur(16px);-webki
     padding: 6px !important;
   }
 }
+
+/* Ajuste de largura e transicao animada nas cores da SHI 175 */
+.color-stage-visual {
+  position: relative !important;
+  background: radial-gradient(ellipse at 50% 60%, var(--stage-tint, rgba(215, 25, 32, 0.08)) 0%, #ffffff 68%) !important;
+  min-height: 360px !important;
+  padding: 28px 16px !important;
+  overflow: hidden !important;
+  transition: background .45s ease !important;
+}
+.color-stage-visual img {
+  width: 92% !important;
+  max-width: 820px !important;
+  height: auto !important;
+  max-height: 440px !important;
+  object-fit: contain !important;
+  mix-blend-mode: multiply !important;
+  filter: brightness(1.05) contrast(1.05);
+  -webkit-mask-image: radial-gradient(ellipse 92% 92% at 50% 50%, #000 74%, transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 92% at 50% 50%, #000 74%, transparent 100%);
+  transition: opacity .26s ease, transform .42s cubic-bezier(.22, 1, .36, 1), filter .32s ease !important;
+  will-change: opacity, transform, filter;
+}
+.color-stage-visual img.bike-exit-left {
+  opacity: 0 !important;
+  transform: translateX(-34px) scale(.96) !important;
+  filter: brightness(1.05) contrast(1.05) blur(4px) !important;
+}
+.color-stage-visual img.bike-exit-right {
+  opacity: 0 !important;
+  transform: translateX(34px) scale(.96) !important;
+  filter: brightness(1.05) contrast(1.05) blur(4px) !important;
+}
+.color-stage-visual img.bike-prep-left {
+  opacity: 0 !important;
+  transform: translateX(-34px) scale(.97) !important;
+  transition: none !important;
+}
+.color-stage-visual img.bike-prep-right {
+  opacity: 0 !important;
+  transform: translateX(34px) scale(.97) !important;
+  transition: none !important;
+}
+.color-badge {
+  transition: transform .25s ease, opacity .25s ease;
+}
+.color-badge.is-popping {
+  transform: scale(1.08);
+}
+@media (max-width: 650px) {
+  .color-stage-visual {
+    min-height: 230px !important;
+    padding: 18px 8px !important;
+  }
+  .color-stage-visual img {
+    width: 100% !important;
+    max-height: 260px !important;
+  }
+}

@@ -404,3 +404,93 @@
   else start();
 })();
 
+
+/* Efeito animado ao trocar as cores da SHI 175 */
+(() => {
+  const enhanceColorSwitch = () => {
+    const img = document.getElementById('colorBikeImg');
+    const stage = document.querySelector('.color-stage-visual');
+    const badge = document.getElementById('colorBadge');
+    const waBtn = document.getElementById('colorWaBtn');
+    const oldSwatches = Array.from(document.querySelectorAll('.color-swatches .swatch'));
+    if (!img || !oldSwatches.length) return;
+
+    const tints = {
+      Vermelha: 'rgba(215, 25, 32, 0.10)',
+      Preta: 'rgba(20, 20, 24, 0.10)',
+      Branca: 'rgba(180, 185, 195, 0.14)',
+      Areia: 'rgba(216, 179, 140, 0.18)'
+    };
+
+    // Pré-carrega as 4 cores para troca instantânea
+    oldSwatches.forEach((b) => { if (b.dataset.src) { const p = new Image(); p.src = b.dataset.src; } });
+
+    // Substitui os botões para limpar o clique seco antigo
+    const swatches = oldSwatches.map((b) => {
+      const clone = b.cloneNode(true);
+      b.replaceWith(clone);
+      return clone;
+    });
+
+    let currentIdx = Math.max(0, swatches.findIndex((s) => s.classList.contains('active')));
+    let swapTimer;
+
+    swatches.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        if (idx === currentIdx) return;
+        const dir = idx > currentIdx ? 'left' : 'right';
+        currentIdx = idx;
+
+        swatches.forEach((s) => {
+          s.classList.remove('active');
+          s.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked', 'true');
+
+        const colorName = btn.dataset.color || 'Vermelha';
+        const nextSrc = btn.dataset.src;
+
+        if (stage) stage.style.setProperty('--stage-tint', tints[colorName] || tints.Vermelha);
+        if (badge) {
+          badge.textContent = colorName.toUpperCase();
+          badge.classList.add('is-popping');
+          setTimeout(() => badge.classList.remove('is-popping'), 240);
+        }
+        if (waBtn) {
+          waBtn.href = `https://wa.me/5535998174929?text=${encodeURIComponent(`Olá! Tenho interesse na SHI 175 na cor ${colorName}.`)}`;
+        }
+
+        clearTimeout(swapTimer);
+        img.classList.remove('bike-exit-left', 'bike-exit-right', 'bike-prep-left', 'bike-prep-right');
+        img.classList.add(dir === 'left' ? 'bike-exit-left' : 'bike-exit-right');
+
+        swapTimer = setTimeout(() => {
+          const reveal = () => {
+            img.classList.remove('bike-exit-left', 'bike-exit-right');
+            img.classList.add(dir === 'left' ? 'bike-prep-right' : 'bike-prep-left');
+            void img.offsetWidth;
+            requestAnimationFrame(() => {
+              img.classList.remove('bike-prep-left', 'bike-prep-right');
+            });
+          };
+
+          if (nextSrc && img.getAttribute('src') !== nextSrc) {
+            img.onload = reveal;
+            img.src = nextSrc;
+            img.alt = `Shineray SHI 175 ${colorName}`;
+            if (img.complete) reveal();
+          } else {
+            reveal();
+          }
+        }, 210);
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(enhanceColorSwitch, 0));
+  } else {
+    setTimeout(enhanceColorSwitch, 0);
+  }
+})();
