@@ -132,23 +132,15 @@
       if ($('dashLeft')) $('dashLeft').classList.toggle('blink', left);
       if ($('dashRight')) $('dashRight').classList.toggle('blink', right);
 
-      if ($('speed')) {
-        $('speed').textContent = String(Math.round(state.throttle * 0.6)).padStart(2, '0');
-      }
-      if ($('gearDisplay')) {
-        $('gearDisplay').textContent = state.on ? (state.throttle > 0 ? 'D' : 'N') : '—';
-      }
+      if ($('speed')) $('speed').textContent = String(Math.round(state.throttle * 0.6)).padStart(2, '0');
+      if ($('gearDisplay')) $('gearDisplay').textContent = state.on ? (state.throttle > 0 ? 'D' : 'N') : '—';
       if ($('rpmText')) {
         $('rpmText').textContent = state.on
           ? `${Math.round(1200 + state.throttle * 48).toLocaleString('pt-BR')} RPM VIRTUAIS`
           : 'IGNIÇÃO DESLIGADA';
       }
       if ($('lightDisplay')) {
-        $('lightDisplay').textContent = state.high
-          ? 'LUZ ALTA'
-          : state.light
-            ? 'LUZ ON'
-            : 'LUZ OFF';
+        $('lightDisplay').textContent = state.high ? 'LUZ ALTA' : state.light ? 'LUZ ON' : 'LUZ OFF';
       }
       if ($('throttleValue')) $('throttleValue').textContent = state.throttle + '%';
       if ($('sceneLabel')) {
@@ -174,9 +166,7 @@
       });
 
       press('ignition', state.on);
-      if ($('ignitionText')) {
-        $('ignitionText').textContent = state.on ? 'Desligar a moto' : 'Dar partida';
-      }
+      if ($('ignitionText')) $('ignitionText').textContent = state.on ? 'Desligar a moto' : 'Dar partida';
       press('headlight', state.light, `Farol <span>${state.light ? 'ON' : 'OFF'}</span>`);
       press('highbeam', state.high, `Farol alto <span>${state.high ? 'ON' : 'OFF'}</span>`);
       press('leftSignal', state.left || state.hazard);
@@ -198,12 +188,6 @@
 
     ignitionBtn.addEventListener('click', () => {
       state.on = !state.on;
-      if (state.on && typeof window.trackEvent === 'function') {
-        window.trackEvent('simulator_start', {
-          modelo: 'SHI 175',
-          origem: 'estudio_interativo'
-        });
-      }
       clearBrake();
       state.throttle = 0;
       if ($('throttle')) $('throttle').value = 0;
@@ -212,11 +196,7 @@
       state.left = false;
       state.right = false;
       state.hazard = false;
-      status(
-        state.on
-          ? 'Motor ligado. Farol aceso. Experimente os comandos.'
-          : 'Moto desligada. Todos os comandos foram reiniciados.'
-      );
+      status(state.on ? 'Motor ligado. Farol aceso. Experimente os comandos.' : 'Moto desligada. Todos os comandos foram reiniciados.');
       update();
     });
 
@@ -242,11 +222,7 @@
         state[side] = !state[side];
         state[side === 'left' ? 'right' : 'left'] = false;
         state.hazard = false;
-        status(
-          state[side]
-            ? `Seta ${side === 'left' ? 'esquerda' : 'direita'} ligada.`
-            : 'Setas desligadas.'
-        );
+        status(state[side] ? `Seta ${side === 'left' ? 'esquerda' : 'direita'} ligada.` : 'Setas desligadas.');
         update();
       });
     });
@@ -272,9 +248,7 @@
         state.throttle = 0;
         if ($('throttle')) $('throttle').value = 0;
         status('Freio acionado. Toque novamente para soltar e voltar à vista frontal.');
-        if (window.innerWidth <= 650) {
-          machineStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        if (window.innerWidth <= 650) machineStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
         status('Freio liberado. Vista frontal.');
       }
@@ -285,16 +259,10 @@
       try {
         state.sound = !state.sound;
         if (state.sound) {
-          document.dispatchEvent(
-            new CustomEvent('shineray:audio-start', { detail: { source: 'simulator' } })
-          );
+          document.dispatchEvent(new CustomEvent('shineray:audio-start', { detail: { source: 'simulator' } }));
           audio();
         }
-        status(
-          state.sound
-            ? 'Som ilustrativo ativado. Use a partida ou a buzina.'
-            : 'Som desativado.'
-        );
+        status(state.sound ? 'Som ilustrativo ativado. Use a partida ou a buzina.' : 'Som desativado.');
         update();
       } catch (e) {
         state.sound = false;
@@ -304,10 +272,7 @@
     });
 
     $('horn')?.addEventListener('click', () => {
-      if (!state.sound) {
-        status('Ative o som para ouvir a buzina ilustrativa.');
-        return;
-      }
+      if (!state.sound) { status('Ative o som para ouvir a buzina ilustrativa.'); return; }
       audio();
       const o = ctx.createOscillator();
       const g = ctx.createGain();
@@ -331,21 +296,6 @@
       }
     });
 
-    if ($('viewLive') && 'IntersectionObserver' in window) {
-      new IntersectionObserver(
-        (entries) => {
-          if (!entries[0].isIntersecting) {
-            state.sound = false;
-            state.throttle = 0;
-            if ($('throttle')) $('throttle').value = 0;
-            update();
-          }
-        },
-        { threshold: 0 }
-      ).observe($('viewLive'));
-    }
-
-    // Perspectiva 3D (mais nítida no celular e desktop)
     const frame = $('machineFrame');
     function perspective(x, y = 0) {
       if (!frame) return;
@@ -353,54 +303,74 @@
       frame.style.setProperty('--rx', y + 'deg');
     }
 
-    $('depth')?.addEventListener('input', () => {
-      perspective(Number($('depth').value) * 0.28);
-    });
+    $('depth')?.addEventListener('input', () => perspective(Number($('depth').value) * 0.28));
+    $('resetDepth')?.addEventListener('click', () => { if ($('depth')) $('depth').value = 0; perspective(0, 0); });
 
-    $('resetDepth')?.addEventListener('click', () => {
-      if ($('depth')) $('depth').value = 0;
-      perspective(0, 0);
-    });
-
-    if (matchMedia('(pointer:fine)').matches) {
-      let tiltFrame;
-      machineStage.addEventListener('pointermove', (e) => {
-        const r = machineStage.getBoundingClientRect();
-        cancelAnimationFrame(tiltFrame);
-        tiltFrame = requestAnimationFrame(() => {
-          perspective(
-            ((e.clientX - r.left - r.width / 2) / r.width) * 18,
-            -((e.clientY - r.top - r.height / 2) / r.height) * 8
-          );
-        });
-      });
-      machineStage.addEventListener('pointerleave', () => {
-        perspective(Number($('depth')?.value || 0) * 0.28, 0);
-      });
-    }
-
-    // Garantia extra para o slider 360° atualizar a imagem
     const angleInput = $('angle');
     const spinImage = $('spinImage');
     if (angleInput && spinImage) {
       angleInput.addEventListener('input', () => {
         const val = Math.min(29, Math.max(1, Number(angleInput.value) || 1));
         const nextSrc = `assets/spin-${val}.webp`;
-        if (spinImage.getAttribute('src') !== nextSrc) {
-          spinImage.src = nextSrc;
-        }
+        if (spinImage.getAttribute('src') !== nextSrc) spinImage.src = nextSrc;
         angleInput.setAttribute('aria-valuetext', `Ângulo ${val} de 29`);
       });
     }
 
-    document.addEventListener('shineray:audio-start', (e) => {
-      if (e.detail?.source !== 'simulator') {
-        state.sound = false;
-        update();
-      }
-    });
-
     update();
+  };
+
+  const initRadianShowcase = () => {
+    // Modal de vídeo do topo
+    const openBtn = document.getElementById('openHeroVideo');
+    const dialog = document.getElementById('heroVideoDialog');
+    const closeBtn = document.getElementById('closeHeroVideo');
+    const player = document.getElementById('heroVideoPlayer');
+
+    if (openBtn && dialog && player) {
+      const closeVideo = () => {
+        player.pause();
+        dialog.close();
+      };
+      openBtn.addEventListener('click', () => {
+        dialog.showModal();
+        player.play().catch(() => {});
+      });
+      closeBtn?.addEventListener('click', closeVideo);
+      dialog.addEventListener('click', (e) => { if (e.target === dialog) closeVideo(); });
+      dialog.addEventListener('cancel', () => player.pause());
+    }
+
+    // Seletor de cores da SHI 175
+    const img = document.getElementById('colorBikeImg');
+    const badge = document.getElementById('colorBadge');
+    const waBtn = document.getElementById('colorWaBtn');
+    const swatches = document.querySelectorAll('.color-swatches .swatch');
+
+    if (img) {
+      img.addEventListener('error', () => {
+        const fb = img.dataset.fallback;
+        if (fb && img.getAttribute('src') !== fb) img.src = fb;
+      });
+    }
+
+    swatches.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        swatches.forEach((s) => {
+          s.classList.remove('active');
+          s.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked', 'true');
+        const colorName = btn.dataset.color || 'Vermelha';
+        const src = btn.dataset.src;
+        if (img && src) img.src = src;
+        if (badge) badge.textContent = colorName.toUpperCase();
+        if (waBtn) {
+          waBtn.href = `https://wa.me/5535998174929?text=${encodeURIComponent(`Olá! Tenho interesse na SHI 175 na cor ${colorName}.`)}`;
+        }
+      });
+    });
   };
 
   const initLgpd = () => {
@@ -409,15 +379,10 @@
     if (!banner || !dialog) return;
 
     const STORAGE_KEY = 'shineray_lgpd_consent';
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      banner.hidden = false;
-    }
+    if (!localStorage.getItem(STORAGE_KEY)) banner.hidden = false;
 
     const saveConsent = (level) => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        level,
-        date: new Date().toISOString()
-      }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ level, date: new Date().toISOString() }));
       banner.hidden = true;
       document.dispatchEvent(new CustomEvent('shineray:lgpd-consent', { detail: { level } }));
     };
@@ -426,21 +391,16 @@
     document.getElementById('lgpdEssential')?.addEventListener('click', () => saveConsent('essential'));
     document.getElementById('openLgpdPolicy')?.addEventListener('click', () => dialog.showModal());
     document.getElementById('closeLgpdDialog')?.addEventListener('click', () => dialog.close());
-
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog) dialog.close();
-    });
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
   };
 
   const start = () => {
     initExperience();
+    initRadianShowcase();
     initLgpd();
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
-  } else {
-    start();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
 })();
 
