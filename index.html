@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c0c0e">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0b0d">
 <title>Shineray Poços de Caldas — Seu próximo caminho</title>
 <meta name="description" content="Explore 28 modelos Shineray, faça o quiz para encontrar sua moto e experimente faróis e comandos interativos. Concessionária autorizada em Poços de Caldas e região.">
 <meta name="robots" content="index, follow">
@@ -99,7 +99,7 @@
 }
 </script>
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23d71920'/%3E%3Ctext x='15' y='47' font-size='44' font-family='Arial' font-weight='bold' fill='white'%3ES%3C/text%3E%3C/svg%3E"><link rel="preload" as="image" href="assets/spin-5.webp"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="immersive.css"><link rel="stylesheet" href="premium.css"><link rel="stylesheet" href="detail-effects.css"><link rel="stylesheet" href="text-motion.css"><link rel="stylesheet" href="ambient-motion.css"><link rel="stylesheet" href="key-cursor.css"><link rel="stylesheet" href="brand-arrival.css"><link rel="stylesheet" href="spin-live.css"><link rel="stylesheet" href="entry.css"><link rel="stylesheet" href="experience.css?v=4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23d71920'/%3E%3Ctext x='15' y='47' font-size='44' font-family='Arial' font-weight='bold' fill='white'%3ES%3C/text%3E%3C/svg%3E"><link rel="preload" as="image" href="assets/spin-5.webp"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="immersive.css"><link rel="stylesheet" href="premium.css"><link rel="stylesheet" href="detail-effects.css"><link rel="stylesheet" href="text-motion.css"><link rel="stylesheet" href="ambient-motion.css"><link rel="stylesheet" href="key-cursor.css"><link rel="stylesheet" href="brand-arrival.css"><link rel="stylesheet" href="spin-live.css"><link rel="stylesheet" href="entry.css"><link rel="stylesheet" href="experience.css?v=5">
 <style id="shineray-micro-interactions-css">
 #rpmProgressBar {
   position: fixed;
@@ -200,30 +200,49 @@
 <nav id="mobileMenu" class="mobile-menu" aria-label="Navegação móvel" hidden><a href="#cores">01 / Cores e Detalhes</a><a href="#modelos">02 / Catálogo completo</a><a href="#explorar">03 / Estúdio 3D e 360°</a><a href="#quiz">04 / Encontre sua moto</a><a href="#sobre">05 / Nossa loja</a><a href="#contato">06 / Vamos conversar ↗</a></nav>
 
 <main>
-<section class="hero" id="inicio" aria-labelledby="heroTitle">
-  <div class="ambient-glow" aria-hidden="true"></div>
-  <div class="ambient-symbols" aria-hidden="true"><span class="ambient-glyph glyph-cross"></span><span class="ambient-glyph glyph-ring"></span><span class="ambient-glyph glyph-diamond"></span><span class="ambient-glyph glyph-cross glyph-small"></span></div>
-  <div class="grid-lines" aria-hidden="true"></div>
-  <a class="hero-layer-cue" href="#camadas">( EXPLORE EM CAMADAS ) <span>↓</span></a>
-  <div class="hero-top"><p class="eyebrow"><i></i> SHINERAY SUL DE MINAS</p><p class="edition">POÇOS DE CALDAS, MG<br>UMA NOVA PERSPECTIVA.</p></div>
-  <h1 id="heroTitle">Seu próximo<br><em>caminho.</em></h1>
+<!-- Hero Cinematográfico em Vídeo Full-Bleed estilo Radian -->
+<section class="hero radian-video-hero" id="inicio" aria-labelledby="heroTitle">
+  <video id="heroBgVideo" class="hero-bg-video" autoplay muted loop playsinline preload="metadata" poster="assets/spin-5.webp" aria-hidden="true">
+    <source src="assets/video/shi-175.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-scrim" aria-hidden="true"></div>
 
-  <!-- Botão de vídeo cinematográfico estilo Radian + Som de partida -->
-  <div class="hero-media-bar">
-    <button type="button" class="radian-video-pill" id="openHeroVideo" aria-label="Assistir ao filme da SHI 175">
-      <span class="video-pill-icon" aria-hidden="true">▶</span>
-      <span><strong>Assistir filme</strong><small>SHI 175 em ação · 0:59</small></span>
-    </button>
-    <div class="startup-panel" id="startupPanel"><button class="startup-trigger" id="startupSound" type="button" aria-label="Ouvir som de partida" aria-pressed="false" aria-describedby="startupStatus"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9M6.3 6.4a8 8 0 1 0 11.4 0" stroke-linecap="round"/></svg></button><div class="startup-copy"><strong id="startupTitle">Ouvir partida</strong><small id="startupStatus" aria-live="polite">Áudio ilustrativo · 6 segundos</small></div><div class="startup-wave" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i></div><audio id="startupAudio" preload="none" src="assets/audio/motorcycle-start.mp3"></audio></div>
+  <!-- Mantido oculto para compatibilidade com scripts existentes -->
+  <div class="hero-product" hidden aria-hidden="true"><img id="heroBike" src="assets/spin-5.webp" width="2560" height="1707" alt="Shineray SHI 175 vermelha"></div>
+
+  <div class="hero-top">
+    <p class="eyebrow"><i></i> SHINERAY SUL DE MINAS</p>
+    <p class="edition">POÇOS DE CALDAS, MG<br>SHI 175 · 2026</p>
   </div>
 
-  <div class="hero-watermark" aria-hidden="true">SHI 175</div>
-  <div class="hero-product"><img id="heroBike" src="assets/spin-5.webp" width="2560" height="1707" alt="Shineray SHI 175 vermelha vista de frente e de lado" fetchpriority="high" draggable="false"></div>
-  <div class="hero-note"><span class="cross">+</span><span>SHI 175<br><small>LIBERDADE EM CADA DETALHE</small></span></div>
-  <div class="hero-bottom"><p>A cidade é só o começo.<br>Descubra onde sua Shineray pode levar você.</p><a class="button light radian-pill" href="#modelos">Ver catálogo completo <span class="pill-arrow">↓</span></a><a class="scroll-cue" href="#quiz">[ QUAL SHINERAY É A SUA? ] <span>↗</span></a></div>
+  <div class="hero-center">
+    <span class="hero-kicker-pill">CONCESSIONÁRIA AUTORIZADA · SUL DE MINAS</span>
+    <h1 id="heroTitle">Seu próximo<br><em>caminho.</em></h1>
+    <p class="hero-lead">A cidade é só o começo. Sinta a liberdade da nova SHI 175 e explore 28 modelos Shineray 0 km em Poços de Caldas.</p>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-cta-group">
+      <a class="button light radian-pill" href="#modelos">Ver catálogo completo <span class="pill-arrow">↓</span></a>
+      <button type="button" class="radian-video-pill" id="openHeroVideo" aria-label="Assistir ao filme completo da SHI 175 com som">
+        <span class="video-pill-icon" aria-hidden="true">▶</span>
+        <span><strong>Assistir com som</strong><small>Filme SHI 175 · 0:59</small></span>
+      </button>
+    </div>
+
+    <div class="hero-sub-bar">
+      <div class="startup-panel" id="startupPanel">
+        <button class="startup-trigger" id="startupSound" type="button" aria-label="Ouvir som de partida" aria-pressed="false" aria-describedby="startupStatus"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9M6.3 6.4a8 8 0 1 0 11.4 0" stroke-linecap="round"/></svg></button>
+        <div class="startup-copy"><strong id="startupTitle">Ouvir partida</strong><small id="startupStatus" aria-live="polite">Áudio ilustrativo · 6 segundos</small></div>
+        <div class="startup-wave" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i></div>
+        <audio id="startupAudio" preload="none" src="assets/audio/motorcycle-start.mp3"></audio>
+      </div>
+      <a class="scroll-cue" href="#quiz">[ QUAL SHINERAY É A SUA? ] <span>↗</span></a>
+    </div>
+  </div>
 </section>
 
-<!-- Nova seção editorial estilo Radian: Nossas Cores + Design em cada detalhe -->
+<!-- Seção editorial estilo Radian: Nossas Cores + Design em cada detalhe -->
 <section class="radian-showcase section" id="cores" aria-labelledby="coresTitle">
   <div class="radian-head">
     <div>
@@ -384,7 +403,7 @@
 
 <a class="whatsapp" href="https://wa.me/5535998174929" data-wa="Olá! Vim pelo site e gostaria de conhecer as motos da Shineray Poços de Caldas." target="_blank" rel="noopener" aria-label="Conversar com a loja no WhatsApp"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 11.7a8.6 8.6 0 0 1-12.7 7.5L3 20.5l1.3-4.7A8.6 8.6 0 1 1 20.5 11.7Z" stroke="currentColor" stroke-width="1.6"/><path d="M8 7.3c.6-.2 1.2 1.8 1.4 2.1.2.4-.5.9-.7 1.2.8 1.7 2 2.8 3.7 3.5.3-.3.9-1.2 1.2-1.1.5.1 2.2 1 2.3 1.3.3 1.1-1.2 2-2.1 2-3.6-.3-7.8-4.1-7.8-7 0-.9.9-2 2-2Z" fill="currentColor"/></svg><span>Vamos conversar</span></a>
 
-<!-- Modal Vídeo SHI 175 -->
+<!-- Modal Vídeo SHI 175 com som -->
 <dialog id="heroVideoDialog" class="video-dialog" aria-label="Filme oficial SHI 175">
   <button type="button" class="dialog-close" id="closeHeroVideo" aria-label="Fechar vídeo">×</button>
   <video id="heroVideoPlayer" controls playsinline preload="metadata" poster="assets/spin-5.webp">
@@ -394,11 +413,32 @@
 </dialog>
 
 <dialog id="productDialog" aria-labelledby="productTitle"><button class="dialog-close" aria-label="Fechar detalhes do modelo">×</button><div id="productDetail"></div></dialog>
-<script src="app.js"></script><script src="conversion.js" defer></script><script src="experience.js?v=4"></script><script type="module" src="catalog.js"></script><script src="immersive.js" defer></script><script src="premium.js" defer></script><script src="detail-effects.js" defer></script><script src="text-motion.js" defer></script><script src="ambient-motion.js" defer></script><script src="spin-live.js" defer></script>
+<script src="app.js"></script><script src="conversion.js" defer></script><script src="experience.js?v=5"></script><script type="module" src="catalog.js"></script><script src="immersive.js" defer></script><script src="premium.js" defer></script><script src="detail-effects.js" defer></script><script src="text-motion.js" defer></script><script src="ambient-motion.js" defer></script><script src="spin-live.js" defer></script>
 <dialog id="brandEntry" class="brand-entry" aria-labelledby="entryTitle" aria-describedby="entryDescription"><div class="entry-aura" aria-hidden="true"></div><div class="entry-brand"><img src="assets/logo.png" width="190" height="34" alt="Shineray"><span>SUL DE MINAS · POÇOS DE CALDAS</span></div><div class="entry-main"><p class="entry-kicker">CADA CAMINHO COMEÇA COM UMA PARTIDA.</p><h2 id="entryTitle" class="entry-title"><span>PRÓXIMO</span><span>CAMINHO</span></h2><button id="entryStart" class="entry-start" autofocus aria-label="Dar partida e entrar no site com som"><span class="entry-power" aria-hidden="true"><svg class="power-symbol" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 2v10"/><path d="M6.2 5.8a8 8 0 1 0 11.6 0"/></svg></span><strong>DAR<br>PARTIDA</strong><small>ENTRAR NO SITE</small></button><p id="entryDescription">Uma nova perspectiva sobre a sua próxima Shineray.</p><button id="entrySilent" class="entry-silent">Entrar sem som <span aria-hidden="true">↗</span></button></div><div class="entry-bottom"><span>SHI 175 / EXPERIÊNCIA INTERATIVA</span><span>EXPLORE. SINTA. DESCUBRA.</span></div></dialog><script src="entry.js" defer></script>
 
 <script id="shineray-micro-interactions-js">
 document.addEventListener('DOMContentLoaded', () => {
+  // Garante reprodução do vídeo de fundo no Hero e pausa ao abrir o modal com som
+  const bgVideo = document.getElementById('heroBgVideo');
+  const videoDialog = document.getElementById('heroVideoDialog');
+  const playBg = () => {
+    if (bgVideo && (!videoDialog || !videoDialog.open)) {
+      bgVideo.muted = true;
+      bgVideo.play().catch(() => {});
+    }
+  };
+  if (bgVideo) {
+    playBg();
+    ['entryStart', 'entrySilent'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('click', () => setTimeout(playBg, 200));
+    });
+    document.addEventListener('touchstart', playBg, { once: true, passive: true });
+    if (videoDialog) {
+      document.getElementById('openHeroVideo')?.addEventListener('click', () => bgVideo.pause());
+      videoDialog.addEventListener('close', playBg);
+    }
+  }
+
   if (!document.getElementById('rpmProgressBar')) {
     const bar = document.createElement('div');
     bar.id = 'rpmProgressBar';
