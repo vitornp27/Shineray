@@ -708,3 +708,225 @@
     initConversionImages();
   }
 })();
+
+/* Intercepta TODOS os botoes e links de WhatsApp com o pop-up de cadastro */
+(() => {
+  const initGlobalWaPopup = () => {
+    const oldOverlay = document.getElementById('creditModalOverlay');
+    if (!oldOverlay) return;
+
+    // Clona o modal para assumir controle unico sem conflitar com o script antigo
+    const overlay = oldOverlay.cloneNode(true);
+    oldOverlay.replaceWith(overlay);
+
+    const closeBtn = overlay.querySelector('#creditModalClose');
+    const form = overlay.querySelector('#creditModalForm');
+    const titleEl = overlay.querySelector('#creditModalTitle');
+    const contextEl = overlay.querySelector('#creditModalContext');
+    const nomeInput = overlay.querySelector('#creditNome');
+    const cpfInput = overlay.querySelector('#creditCpf');
+    const whatsInput = overlay.querySelector('#creditWhatsapp');
+    const emailInput = overlay.querySelector('#creditEmail');
+    const nomeError = overlay.querySelector('#creditNomeError');
+    const cpfError = overlay.querySelector('#creditCpfError');
+    const whatsError = overlay.querySelector('#creditWhatsError');
+    const emailError = overlay.querySelector('#creditEmailError');
+    const submitBtn = overlay.querySelector('.credit-modal-submit');
+    if (!form) return;
+
+    const WHATSAPP_LOJA = '5535998174929';
+    let resumoPedido = 'Atendimento via site';
+
+    const limparErros = () => {
+      [nomeInput, cpfInput, whatsInput, emailInput].forEach((el) => el?.classList.remove('is-invalid'));
+      [nomeError, cpfError, whatsError, emailError].forEach((el) => el?.classList.remove('is-visible'));
+    };
+
+    const abrirModal = (titulo, textoContexto, resumo) => {
+      const productDialog = document.getElementById('productDialog');
+      if (productDialog && productDialog.hasAttribute('open') && typeof productDialog.close === 'function') {
+        productDialog.close();
+      }
+      limparErros();
+      if (titleEl) titleEl.textContent = titulo || 'Seus dados para continuar';
+      if (contextEl) contextEl.textContent = textoContexto;
+      if (submitBtn) submitBtn.innerHTML = 'Continuar no WhatsApp <span aria-hidden="true">↗</span>';
+      resumoPedido = resumo;
+      overlay.hidden = false;
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('credit-modal-open');
+      setTimeout(() => nomeInput?.focus(), 50);
+    };
+
+    const fecharModal = () => {
+      overlay.hidden = true;
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('credit-modal-open');
+    };
+
+    const extrairTextoUrl = (href) => {
+      try {
+        const u = new URL(href, window.location.href);
+        return u.searchParams.get('text') || '';
+      } catch (_) {
+        return '';
+      }
+    };
+
+    closeBtn?.addEventListener('click', fecharModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) fecharModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) fecharModal(); });
+
+    // Captura em window (antes de document) para cobrir 100% dos botoes de WhatsApp
+    window.addEventListener('click', (e) => {
+      const target = e.target.closest('a, button');
+      if (!target || overlay.contains(target)) return;
+
+      const href = target.getAttribute('href') || '';
+      const text = (target.textContent || '').trim();
+      const dataWa = target.getAttribute('data-wa') || '';
+      const isWaUrl = /wa\.me|whatsapp\.com/i.test(href);
+      const isSpecialId = ['financeWhatsapp', 'testRideWhatsapp', 'colorWaBtn'].includes(target.id);
+      const isWaClass = target.classList.contains('whatsapp') || target.classList.contains('compare-wa') || target.classList.contains('quiz-share');
+      const inCardOrDialog = Boolean(target.closest('.compare-card, #productDialog, .model-card, .quiz-result'));
+      const isCardWaAction = inCardOrDialog && (isWaUrl || Boolean(dataWa) || /whatsapp|consultar este modelo|quero essa|enviar/i.test(text));
+
+      if (!isWaUrl && !dataWa && !isSpecialId && !isWaClass && !isCardWaAction) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      if (target.id === 'financeWhatsapp') {
+        const select = document.getElementById('financeModel');
+        const modelo = select && select.selectedIndex >= 0 ? select.options[select.selectedIndex].text.trim() : 'Modelo selecionado';
+        const entrada = document.getElementById('financeDownValue')?.textContent?.trim() || '—';
+        const parcela = document.getElementById('financeInstallment')?.textContent?.trim() || '—';
+        const prazoBtn = document.querySelector('.finance-terms button[aria-pressed="true"]');
+        const prazo = prazoBtn ? prazoBtn.textContent.trim() : '36x';
+        abrirModal(
+          'Seus dados para simulação',
+          `Simulação: ${modelo} · Entrada ${entrada} · ${prazo} de ${parcela}`,
+          `*Assunto:* Simulação de financiamento\n*Modelo:* ${modelo}\n*Entrada:* ${entrada}\n*Prazo:* ${prazo}\n*Parcela estimada:* ${parcela}`
+        );
+        return;
+      }
+
+      if (target.id === 'colorWaBtn') {
+        const cor = document.getElementById('colorBadge')?.textContent?.trim() || 'Vermelha';
+        abrirModal(
+          'Interesse na SHI 175',
+          `Cor escolhida: ${cor}. Preencha seus dados para falar com a equipe no WhatsApp.`,
+          `*Assunto:* Interesse na SHI 175\n*Cor escolhida:* ${cor}`
+        );
+        return;
+      }
+
+      if (target.id === 'testRideWhatsapp') {
+        abrirModal(
+          'Agendar Test Ride',
+          'Preencha seus dados abaixo para agendar seu Test Ride em Poços de Caldas pelo WhatsApp.',
+          '*Assunto:* Agendamento de Test Ride na loja de Poços de Caldas'
+        );
+        return;
+      }
+
+      const compareCard = target.closest('.compare-card');
+      if (compareCard) {
+        const modelo = compareCard.querySelector('h4')?.textContent?.trim() || 'Modelo Shineray';
+        abrirModal(
+          'Consultar modelo',
+          `Modelo escolhido: ${modelo}. Preencha seus dados para continuar no WhatsApp.`,
+          `*Assunto:* Interesse no modelo\n*Modelo:* ${modelo}`
+        );
+        return;
+      }
+
+      const inProductDialog = target.closest('#productDialog');
+      const inCatalogCard = target.closest('.model-card');
+      if (inProductDialog || inCatalogCard) {
+        const modelo =
+          (inProductDialog && document.getElementById('productTitle')?.textContent?.trim()) ||
+          (inCatalogCard && inCatalogCard.querySelector('h3')?.textContent?.trim()) ||
+          'Modelo Shineray';
+        abrirModal(
+          'Consultar modelo',
+          `Modelo escolhido: ${modelo}. Preencha seus dados para continuar no WhatsApp.`,
+          `*Assunto:* Interesse no modelo\n*Modelo:* ${modelo}`
+        );
+        return;
+      }
+
+      const msgOriginal = dataWa || extrairTextoUrl(href) || text || 'Atendimento pelo site';
+      const tituloLimpo = /revis/i.test(text)
+        ? 'Agendar revisão'
+        : /pe[cç]a/i.test(text)
+          ? 'Orçamento de peças'
+          : 'Falar no WhatsApp';
+
+      abrirModal(
+        tituloLimpo,
+        'Preencha seus dados abaixo para continuar o atendimento direto no WhatsApp da loja.',
+        `*Mensagem:* ${msgOriginal}`
+      );
+    }, true);
+
+    cpfInput?.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      e.target.value = v;
+      cpfInput.classList.remove('is-invalid');
+      cpfError?.classList.remove('is-visible');
+    });
+
+    whatsInput?.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+      else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+      else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+      else if (v.length > 0) v = v.replace(/^(\d*)/, '($1');
+      e.target.value = v;
+      whatsInput.classList.remove('is-invalid');
+      whatsError?.classList.remove('is-visible');
+    });
+
+    nomeInput?.addEventListener('input', () => { nomeInput.classList.remove('is-invalid'); nomeError?.classList.remove('is-visible'); });
+    emailInput?.addEventListener('input', () => { emailInput.classList.remove('is-invalid'); emailError?.classList.remove('is-visible'); });
+
+    const validarCPF = (cpf) => {
+      const n = cpf.replace(/\D/g, '');
+      if (n.length !== 11 || /^(\d)\1+$/.test(n)) return false;
+      let soma = 0; for (let i = 0; i < 9; i++) soma += parseInt(n[i], 10) * (10 - i);
+      let resto = (soma * 10) % 11; if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(n[9], 10)) return false;
+      soma = 0; for (let i = 0; i < 10; i++) soma += parseInt(n[i], 10) * (11 - i);
+      resto = (soma * 10) % 11; if (resto === 10 || resto === 11) resto = 0;
+      return resto === parseInt(n[10], 10);
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      limparErros();
+      const nome = nomeInput.value.trim();
+      const cpf = cpfInput.value.trim();
+      const whatsapp = whatsInput.value.trim();
+      const email = emailInput.value.trim();
+
+      if (nome.length < 3) { nomeInput.classList.add('is-invalid'); nomeError?.classList.add('is-visible'); nomeInput.focus(); return; }
+      if (!validarCPF(cpf)) { cpfInput.classList.add('is-invalid'); cpfError?.classList.add('is-visible'); cpfInput.focus(); return; }
+      if (whatsapp.replace(/\D/g, '').length < 10) { whatsInput.classList.add('is-invalid'); whatsError?.classList.add('is-visible'); whatsInput.focus(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailInput.classList.add('is-invalid'); emailError?.classList.add('is-visible'); emailInput.focus(); return; }
+
+      const mensagem = encodeURIComponent(
+        `Olá! Vim pelo site da Shineray Poços de Caldas.\n\n${resumoPedido}\n\n*Dados do cliente:*\n*Nome:* ${nome}\n*CPF:* ${cpf}\n*WhatsApp:* ${whatsapp}\n*E-mail:* ${email}`
+      );
+      const waUrl = `https://wa.me/${WHATSAPP_LOJA}?text=${mensagem}`;
+      fecharModal();
+      const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
+      if (!win) window.location.href = waUrl;
+    });
+  };
+
+  if (document.readyState === 'complete') setTimeout(initGlobalWaPopup, 80);
+  else window.addEventListener('load', () => setTimeout(initGlobalWaPopup, 80));
+})();
