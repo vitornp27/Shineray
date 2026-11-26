@@ -494,3 +494,217 @@
     setTimeout(enhanceColorSwitch, 0);
   }
 })();
+
+/* Exibe imagens das motos selecionadas no Comparador e no Simulador Financeiro */
+(() => {
+  const norm = (s) =>
+    String(s || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+  const imageMap = new Map();
+  const catalogFiles = new Set();
+
+  const registerFromDom = () => {
+    document.querySelectorAll('#catalogGrid .model-card').forEach((card) => {
+      const name = card.querySelector('h3')?.textContent?.trim();
+      const src = card.querySelector('img')?.getAttribute('src');
+      if (name && src) {
+        imageMap.set(norm(name), src);
+        catalogFiles.add(src);
+      }
+    });
+  };
+
+  const scanScriptForImages = async (url, depth = 0) => {
+    if (depth > 2) return;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const text = await res.text();
+      const matches = text.match(/assets\/catalog\/[a-zA-Z0-9._-]+\.(?:webp|png|jpe?g)/gi) || [];
+      matches.forEach((m) => catalogFiles.add(m));
+
+      const pairRe = /(?:name|title|modelo)\s*:\s*['"]([^'"]+)['"][\s\S]{0,400}?(assets\/catalog\/[a-zA-Z0-9._-]+\.(?:webp|png|jpe?g))/gi;
+      let m;
+      while ((m = pairRe.exec(text))) imageMap.set(norm(m[1]), m[2]);
+
+      const imports = [...text.matchAll(/import[\s\S]*?from\s*['"](\.\/[^'"]+)['"]/g)];
+      for (const imp of imports) await scanScriptForImages(imp[1], depth + 1);
+    } catch (_) {}
+  };
+
+  const resolveBikeImage = (value, label) => {
+    registerFromDom();
+    const keys = [norm(label), norm(value)].filter(Boolean);
+    for (const k of keys) {
+      if (imageMap.has(k)) return imageMap.get(k);
+    }
+
+    const files = Array.from(catalogFiles);
+    for (const k of keys) {
+      const exact = files.find((f) => norm(f.split('/').pop().replace(/\.[^.]+$/, '')) === k);
+      if (exact) return exact;
+    }
+
+    let bestFile = null;
+    let bestScore = 0;
+    const tokens = (keys[0] || '').split('-').filter((t) => t.length > 1);
+    for (const f of files) {
+      const base = norm(f.split('/').pop().replace(/\.[^.]+$/, ''));
+      const fTokens = base.split('-');
+      let score = 0;
+      tokens.forEach((t) => {
+        if (fTokens.includes(t)) score += 3;
+        else if (base.includes(t)) score += 1;
+      });
+      if (score > bestScore) {
+        bestScore = score;
+        bestFile = f;
+      }
+    }
+    if (bestFile && bestScore >= 3) return bestFile;
+
+    const slug = keys[0] || 'shi-175';
+    return `assets/catalog/${slug}.webp`;
+  };
+
+  const applyFallback = (img) => {
+    img.onerror = () => {
+      const tried = Number(img.dataset.fb || 0);
+      if (tried === 0 && img.src.endsWith('.webp')) {
+        img.dataset.fb = '1';
+        img.src = img.src.replace(/\.webp$/, '.png');
+      } else if (tried <= 1) {
+        img.dataset.fb = '2';
+        img.src = 'assets/spin-5.webp';
+      } else {
+        img.onerror = null;
+      }
+    };
+  };
+
+  const decorateCompareCards = () => {
+    const container = document.getElementById('compareResults');
+    if (!container) return;
+    const selA = document.getElementById('compareModelA');
+    const selB = document.getElementById('compareModelB');
+    const selects = [selA, selB];
+
+    container.querySelectorAll('.compare-card').forEach((card, idx) => {
+      const title = card.querySelector('h4')?.textContent?.trim() || '';
+      const sel = selects[idx];
+      const val = sel?.value || '';
+      const label = title || sel?.options?.[sel.selectedIndex]?.text?.trim() || '';
+      if (!label) return;
+
+      const src = resolveBikeImage(val, label);
+      let box = card.querySelector('.compare-bike-media');
+      if (!box) {
+        box = document.createElement('div');
+        box.className = 'compare-bike-media';
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.className = 'is-swapping';
+        applyFallback(img);
+        box.appendChild(img);
+
+        const anchor = card.querySelector('h4');
+        if (anchor && anchor.nextSibling) anchor.parentNode.insertBefore(box, anchor.nextSibling);
+        else card.prepend(box);
+      }
+
+      const img = box.querySelector('img');
+      if (img && img.getAttribute('src') !== src) {
+        img.dataset.fb = '0';
+        img.classList.add('is-swapping');
+        img.alt = `Shineray ${label}`;
+        img.onload = () => requestAnimationFrame(() => img.classList.remove('is-swapping'));
+        img.src = src;
+        if (img.complete) requestAnimationFrame(() => img.classList.remove('is-swapping'));
+      }
+    });
+  };
+
+  const setupFinancePreview = () => {
+    const select = document.getElementById('financeModel');
+    const panel = document.querySelector('#simulador-financeiro .finance-panel');
+    if (!select || !panel) return;
+
+    let preview = document.getElementById('financeBikePreview');
+    if (!preview) {
+      preview = document.createElement('div');
+      preview.id = 'financeBikePreview';
+      preview.className = 'finance-bike-preview';
+      preview.innerHTML = '<span class="finance-bike-badge" id="financeBikeBadge"></span><img id="financeBikeImg" alt="" loading="lazy" decoding="async">';
+      const labelEl = panel.querySelector('.finance-model-label');
+      if (labelEl) labelEl.insertAdjacentElement('afterend', preview);
+      else panel.prepend(preview);
+    }
+
+    const img = document.getElementById('financeBikeImg');
+    const badge = document.getElementById('financeBikeBadge');
+    if (!img) return;
+    applyFallback(img);
+
+    const updateFinanceBike = () => {
+      const opt = select.options?.[select.selectedIndex];
+      const label = opt?.text?.trim() || '';
+      if (!label) return;
+      const src = resolveBikeImage(select.value, label);
+      if (badge) badge.textContent = label;
+      if (img.getAttribute('src') !== src) {
+        img.dataset.fb = '0';
+        img.classList.add('is-swapping');
+        img.alt = `Shineray ${label}`;
+        setTimeout(() => {
+          img.onload = () => requestAnimationFrame(() => img.classList.remove('is-swapping'));
+          img.src = src;
+          if (img.complete) requestAnimationFrame(() => img.classList.remove('is-swapping'));
+        }, 120);
+      }
+    };
+
+    select.addEventListener('change', updateFinanceBike);
+    new MutationObserver(updateFinanceBike).observe(select, { childList: true });
+    updateFinanceBike();
+    return updateFinanceBike;
+  };
+
+  const initConversionImages = async () => {
+    registerFromDom();
+    await scanScriptForImages('catalog.js');
+
+    const compareResults = document.getElementById('compareResults');
+    if (compareResults) {
+      new MutationObserver(() => decorateCompareCards()).observe(compareResults, { childList: true });
+      decorateCompareCards();
+    }
+
+    const updateFinance = setupFinancePreview();
+
+    const catalogGrid = document.getElementById('catalogGrid');
+    if (catalogGrid) {
+      new MutationObserver(() => {
+        registerFromDom();
+        decorateCompareCards();
+        if (updateFinance) updateFinance();
+      }).observe(catalogGrid, { childList: true });
+    }
+
+    setTimeout(() => {
+      decorateCompareCards();
+      if (updateFinance) updateFinance();
+    }, 600);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initConversionImages);
+  } else {
+    initConversionImages();
+  }
+})();
