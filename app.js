@@ -21,6 +21,11 @@ const number='5535998174929';window.SHINERAY_WHATSAPP_NUMBER=number;document.que
     sync();
   }, { threshold: 0.15 });
   zones.forEach((el) => io.observe(el));
+  /* nota10-cmp-obs */
+  const cmp = document.getElementById('compareResults');
+  const watchCmp = () => { if (cmp) cmp.querySelectorAll('.compare-table-actions,.compare-wa').forEach((el) => io.observe(el)); };
+  watchCmp();
+  if (cmp) new MutationObserver(watchCmp).observe(cmp, { childList: true, subtree: true });
 })();
 /* nota10-wa-end */
 

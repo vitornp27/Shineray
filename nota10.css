@@ -235,3 +235,6 @@
   stroke-width: 1.75 !important;
   display: block;
 }
+
+/* Oculta fotos duplicadas injetadas no rodape do comparador */
+.compare-table-actions .compare-card > :not(.compare-wa) { display: none !important; }
