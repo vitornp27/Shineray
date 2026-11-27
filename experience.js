@@ -913,12 +913,12 @@
       const email = emailInput.value.trim();
 
       if (nome.length < 3) { nomeInput.classList.add('is-invalid'); nomeError?.classList.add('is-visible'); nomeInput.focus(); return; }
-      if (!validarCPF(cpf)) { cpfInput.classList.add('is-invalid'); cpfError?.classList.add('is-visible'); cpfInput.focus(); return; }
+      if (cpf && !validarCPF(cpf)) { cpfInput.classList.add('is-invalid'); cpfError?.classList.add('is-visible'); cpfInput.focus(); return; }
       if (whatsapp.replace(/\D/g, '').length < 10) { whatsInput.classList.add('is-invalid'); whatsError?.classList.add('is-visible'); whatsInput.focus(); return; }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailInput.classList.add('is-invalid'); emailError?.classList.add('is-visible'); emailInput.focus(); return; }
 
       const mensagem = encodeURIComponent(
-        `Olá! Vim pelo site da Shineray Poços de Caldas.\n\n${resumoPedido}\n\n*Dados do cliente:*\n*Nome:* ${nome}\n*CPF:* ${cpf}\n*WhatsApp:* ${whatsapp}\n*E-mail:* ${email}`
+        `Olá! Vim pelo site da Shineray Poços de Caldas.\n\n${resumoPedido}\n\n*Dados do cliente:*\n*Nome:* ${nome}${cpf ? "\n*CPF:* " + cpf : ""}\n*WhatsApp:* ${whatsapp}\n*E-mail:* ${email}`
       );
       const waUrl = `https://wa.me/${WHATSAPP_LOJA}?text=${mensagem}`;
       fecharModal();
@@ -929,4 +929,102 @@
 
   if (document.readyState === 'complete') setTimeout(initGlobalWaPopup, 80);
   else window.addEventListener('load', () => setTimeout(initGlobalWaPopup, 80));
+})();
+
+/* Lazy load automatico do catalogo + sincronizacao dinamica da contagem de modelos */
+(() => {
+  const initCatalogEnhancements = () => {
+    const grid = document.getElementById('catalogGrid');
+    const loadMore = document.getElementById('loadMore');
+    const countEl = document.getElementById('catalogCount');
+    const searchInput = document.getElementById('catalogSearch');
+    const categorySelect = document.getElementById('category');
+
+    // 1) Sincroniza automaticamente a quantidade real de modelos nos textos
+    const syncModelTotals = () => {
+      if (!countEl) return;
+      const semFiltro = (!searchInput || !searchInput.value.trim()) && (!categorySelect || categorySelect.value === 'all');
+      if (!semFiltro) return;
+      const match = (countEl.textContent || '').match(/\d+/);
+      if (!match) return;
+      const total = match[0];
+      document.querySelectorAll('.hero-lead, .models-header p').forEach((el) => {
+        if (/\b\d+\s+modelos\b/i.test(el.innerHTML)) {
+          el.innerHTML = el.innerHTML.replace(/\b\d+(\s+modelos)\b/gi, `${total}$1`);
+        }
+      });
+    };
+
+    if (countEl) {
+      new MutationObserver(syncModelTotals).observe(countEl, { childList: true, characterData: true, subtree: true });
+      syncModelTotals();
+    }
+
+    // 2) Lazy load nas imagens dos cards e carregamento infinito ao rolar
+    const markImagesLazy = () => {
+      if (!grid) return;
+      grid.querySelectorAll('img').forEach((img) => {
+        if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
+        if (!img.getAttribute('decoding')) img.setAttribute('decoding', 'async');
+      });
+    };
+
+    if (!grid || !loadMore) return;
+
+    let sentinel = document.getElementById('catalogLazySentinel');
+    if (!sentinel) {
+      sentinel = document.createElement('div');
+      sentinel.id = 'catalogLazySentinel';
+      sentinel.className = 'catalog-lazy-sentinel';
+      sentinel.setAttribute('aria-hidden', 'true');
+      sentinel.innerHTML = '<span>Carregando mais modelos…</span>';
+      loadMore.insertAdjacentElement('beforebegin', sentinel);
+    }
+
+    loadMore.classList.add('is-auto-lazy');
+
+    let isLoadingBatch = false;
+    const updateSentinel = () => {
+      sentinel.hidden = Boolean(loadMore.hidden);
+    };
+
+    const triggerNextBatch = () => {
+      if (isLoadingBatch || loadMore.hidden) return;
+      isLoadingBatch = true;
+      loadMore.click();
+      setTimeout(() => {
+        isLoadingBatch = false;
+        markImagesLazy();
+        updateSentinel();
+        if (!loadMore.hidden && sentinel.getBoundingClientRect().top < window.innerHeight + 220) {
+          triggerNextBatch();
+        }
+      }, 140);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) triggerNextBatch();
+        },
+        { rootMargin: '260px 0px' }
+      );
+      io.observe(sentinel);
+    } else {
+      loadMore.classList.remove('is-auto-lazy');
+      sentinel.hidden = true;
+    }
+
+    new MutationObserver(updateSentinel).observe(loadMore, { attributes: true, attributeFilter: ['hidden'] });
+    new MutationObserver(() => {
+      markImagesLazy();
+      updateSentinel();
+    }).observe(grid, { childList: true });
+
+    markImagesLazy();
+    updateSentinel();
+  };
+
+  if (document.readyState === 'complete') setTimeout(initCatalogEnhancements, 120);
+  else window.addEventListener('load', () => setTimeout(initCatalogEnhancements, 120));
 })();

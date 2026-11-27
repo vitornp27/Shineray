@@ -402,3 +402,81 @@ header{background:rgba(11,11,13,.68)!important;backdrop-filter:blur(16px);-webki
   .compare-bike-media { height: 155px; }
   .finance-bike-preview { height: 180px; }
 }
+
+/* Lazy load automatico do catalogo */
+#loadMore.catalog-more.is-auto-lazy {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.catalog-lazy-sentinel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  margin: 22px auto 0;
+  font: 11px monospace;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.catalog-lazy-sentinel[hidden] {
+  display: none !important;
+}
+.catalog-lazy-sentinel::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #d4d4d8;
+  border-top-color: var(--red);
+  animation: lazySpin .75s linear infinite;
+}
+@keyframes lazySpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Botao flutuante do WhatsApp compacto e sem sobrepor elementos no mobile */
+@media (max-width: 650px) {
+  .whatsapp {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    right: 12px !important;
+    bottom: 14px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .32) !important;
+  }
+  .whatsapp svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .whatsapp > span {
+    display: none !important;
+  }
+  .color-stage-controls .button,
+  .finance-terms,
+  .faq.section .faq-items details {
+    scroll-margin-bottom: 84px;
+  }
+  .hero.radian-video-hero .startup-panel {
+    max-width: calc(100% - 62px) !important;
+  }
+  footer {
+    padding-bottom: 84px !important;
+  }
+  .lgpd-banner {
+    bottom: 70px !important;
+  }
+}
