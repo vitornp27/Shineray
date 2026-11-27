@@ -480,3 +480,49 @@ header{background:rgba(11,11,13,.68)!important;backdrop-filter:blur(16px);-webki
     bottom: 70px !important;
   }
 }
+
+/* Rodape com icone do Instagram e textos maiores e mais legiveis */
+footer .footer-ig-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  transition: transform .2s ease, opacity .2s ease;
+}
+footer .footer-ig-link:hover {
+  transform: scale(1.08);
+  opacity: .92;
+}
+footer .footer-top > a:not(.brand):not(.footer-ig-link) {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #ffffff !important;
+}
+footer .store-hours {
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  color: #f0ecee !important;
+}
+footer .store-hours .hours-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+footer .footer-bottom {
+  border-top-color: rgba(255, 255, 255, 0.24) !important;
+  gap: 14px !important;
+  padding-top: 22px !important;
+}
+footer .footer-bottom span {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0 !important;
+  color: #e6e2e4 !important;
+}
+footer .footer-bottom span:first-child {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+}
