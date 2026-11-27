@@ -367,7 +367,7 @@
         if (img && src) img.src = src;
         if (badge) badge.textContent = colorName.toUpperCase();
         if (waBtn) {
-          waBtn.href = `https://wa.me/5535998174929?text=${encodeURIComponent(`Olá! Tenho interesse na SHI 175 na cor ${colorName}.`)}`;
+          waBtn.href = `https://wa.me/5535998174929?text=${encodeURIComponent(`Olá! Tenho interesse na ${document.body.dataset.model || 'SHI 175'} na cor ${colorName}.`)}`;
         }
       });
     });
@@ -458,7 +458,7 @@
           setTimeout(() => badge.classList.remove('is-popping'), 240);
         }
         if (waBtn) {
-          waBtn.href = `https://wa.me/5535998174929?text=${encodeURIComponent(`Olá! Tenho interesse na SHI 175 na cor ${colorName}.`)}`;
+          waBtn.href = `https://wa.me/5535998174929?text=${encodeURIComponent(`Olá! Tenho interesse na ${document.body.dataset.model || 'SHI 175'} na cor ${colorName}.`)}`;
         }
 
         clearTimeout(swapTimer);
@@ -815,9 +815,9 @@
       if (target.id === 'colorWaBtn') {
         const cor = document.getElementById('colorBadge')?.textContent?.trim() || 'Vermelha';
         abrirModal(
-          'Interesse na SHI 175',
+          `Interesse na ${document.body.dataset.model || 'SHI 175'}`,
           `Cor escolhida: ${cor}. Preencha seus dados para falar com a equipe no WhatsApp.`,
-          `*Assunto:* Interesse na SHI 175\n*Cor escolhida:* ${cor}`
+          `*Assunto:* Interesse na ${document.body.dataset.model || 'SHI 175'}\n*Cor escolhida:* ${cor}`
         );
         return;
       }

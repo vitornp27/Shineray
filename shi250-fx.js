@@ -1,6 +1,143 @@
 (() => {
+  const SPIN_COUNT = 24;
+
   const initShi250Effects = () => {
-    // 1) Remapeia as fotos do Estúdio Interativo para a SHI 250
+    /* ======================================================
+       1) ANATOMIA DO MOVIMENTO (#camadas) — 100% funcional
+       ====================================================== */
+    const section = document.getElementById('camadas');
+    const parts = Array.from(document.querySelectorAll('#anatomyParts .anatomy-part'));
+    const shadow = document.querySelector('#anatomyScene .anatomy-shadow');
+    const stateEl = document.getElementById('anatomyState');
+    const pctEl = document.getElementById('anatomyPercent');
+    const slider = document.getElementById('separation');
+    const btnAssemble = document.getElementById('assembleBike');
+    const btnExplode = document.getElementById('explodeBike');
+    const btnScroll = document.getElementById('scrollBike');
+    const partBtns = Array.from(document.querySelectorAll('#camadas [data-focus-part]'));
+
+    if (section && parts.length) {
+      let progress = 0;
+      let target = 0;
+      let followScroll = true;
+      let focused = 'all';
+      let rafId = null;
+
+      const applyAnatomy = (p) => {
+        const clamped = Math.max(0, Math.min(1, p));
+        const pct = Math.round(clamped * 100);
+
+        parts.forEach((el) => {
+          const x = Number(el.dataset.x || 0) * clamped;
+          const y = Number(el.dataset.y || 0) * clamped;
+          const z = Number(el.dataset.z || 0) * clamped;
+          const r = Number(el.dataset.r || 0) * clamped;
+          el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotate(${r.toFixed(2)}deg)`;
+
+          const isMatch = focused === 'all' || el.dataset.part === focused;
+          el.style.opacity = isMatch ? '1' : '0.18';
+          el.style.filter = isMatch && focused !== 'all'
+            ? 'drop-shadow(0 14px 26px rgba(215, 25, 32, 0.5))'
+            : isMatch ? 'none' : 'grayscale(0.8)';
+          el.style.zIndex = isMatch && focused !== 'all' ? '8' : '2';
+
+          const marker = el.querySelector('.part-marker');
+          if (marker) marker.style.opacity = clamped > 0.12 || focused !== 'all' ? '1' : '0';
+        });
+
+        if (shadow) {
+          shadow.style.transform = `scale(${(1 + clamped * 0.22).toFixed(3)})`;
+          shadow.style.opacity = String((0.75 - clamped * 0.35).toFixed(2));
+        }
+        if (pctEl) pctEl.textContent = String(pct).padStart(3, '0');
+        if (stateEl) {
+          stateEl.textContent = pct < 8
+            ? 'TUDO SE CONECTA'
+            : pct < 85
+              ? 'SEPARANDO CONJUNTOS'
+              : 'ANATOMIA EXPLODIDA';
+        }
+        if (slider && document.activeElement !== slider) {
+          slider.value = String(pct);
+          slider.setAttribute('aria-valuetext', pct === 0 ? 'Moto montada' : `${pct}% separada`);
+        }
+      };
+
+      const animateToTarget = () => {
+        progress += (target - progress) * 0.14;
+        if (Math.abs(target - progress) < 0.002) {
+          progress = target;
+          applyAnatomy(progress);
+          rafId = null;
+          return;
+        }
+        applyAnatomy(progress);
+        rafId = requestAnimationFrame(animateToTarget);
+      };
+
+      const setTarget = (val) => {
+        target = Math.max(0, Math.min(1, val));
+        if (!rafId) rafId = requestAnimationFrame(animateToTarget);
+      };
+
+      const setScrollMode = (on) => {
+        followScroll = on;
+        btnScroll?.setAttribute('aria-pressed', String(on));
+      };
+
+      const onScroll = () => {
+        if (!followScroll) return;
+        const rect = section.getBoundingClientRect();
+        const span = Math.max(1, section.offsetHeight - window.innerHeight);
+        const raw = -rect.top / span;
+        const p = Math.max(0, Math.min(1, raw * 1.15));
+        setTarget(p);
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      slider?.addEventListener('input', () => {
+        setScrollMode(false);
+        const p = Number(slider.value) / 100;
+        progress = p;
+        target = p;
+        applyAnatomy(p);
+      });
+
+      btnAssemble?.addEventListener('click', () => {
+        setScrollMode(false);
+        setTarget(0);
+      });
+
+      btnExplode?.addEventListener('click', () => {
+        setScrollMode(false);
+        setTarget(1);
+      });
+
+      btnScroll?.addEventListener('click', () => {
+        setScrollMode(!followScroll);
+        if (followScroll) onScroll();
+      });
+
+      partBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          focused = btn.dataset.focusPart || 'all';
+          partBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+          if (focused !== 'all' && target < 0.45) {
+            setScrollMode(false);
+            setTarget(0.65);
+          } else {
+            applyAnatomy(progress);
+          }
+        });
+      });
+
+      applyAnatomy(0);
+    }
+
+    /* ======================================================
+       2) ESTÚDIO INTERATIVO — Imagens SHI 250 + Modo Noite
+       ====================================================== */
     const machineImg = document.getElementById('machineImage');
     const swapMap = {
       'assets/spin-1.webp': 'assets/shi250/cores/vermelha-cut.webp',
@@ -17,7 +154,6 @@
       enforceShi250Src();
     }
 
-    // 2) Botão Modo Noite no Estúdio
     const stage = document.getElementById('machineStage');
     const dash = document.getElementById('dash');
     if (stage && !document.getElementById('studioNightToggle')) {
@@ -40,10 +176,12 @@
       stage.appendChild(toggle);
     }
 
-    // 3) Giro 3D interativo com os quadros extraídos da SHI 250
-    const spinFrames = Array.from({ length: 24 }, (_, i) => ({
+    /* ======================================================
+       3) ABA EXPLORAR EM 3D — Giro por arraste suave
+       ====================================================== */
+    const spinFrames = Array.from({ length: SPIN_COUNT }, (_, i) => ({
       src: `assets/shi250/spin/spin-${String(i + 1).padStart(2, '0')}.webp`,
-      label: `SHI 250 3D · ÂNGULO ${String(i + 1).padStart(2, '0')}/24`
+      label: `SHI 250 3D · ÂNGULO ${String(i + 1).padStart(2, '0')}/${SPIN_COUNT}`
     }));
     spinFrames.forEach((f) => { const p = new Image(); p.src = f.src; });
 
@@ -130,33 +268,38 @@
     }
     renderSpin();
 
-    // 4) Secção "De perto, faz a diferença"
+    /* ======================================================
+       4) DE PERTO, FAZ A DIFERENÇA (#detalhes) — Overlays SVG
+       ====================================================== */
     const detailItems = [
       {
         src: 'assets/shi250/detalhes/led.webp',
         alt: 'Iluminação Full LED com DRL da SHI 250',
-        meter: 'FULL LED',
-        status: 'Farol Full LED + DRL prontos',
-        action: 'Testar farol Full LED',
-        activeStatus: 'Farol alto e DRL acesos no máximo',
+        meter: 'DRL ATIVO',
+        status: 'DRL aceso · toque para acionar farol alto',
+        action: 'Acionar farol Full LED',
+        activeMeter: 'FAROL ALTO',
+        activeStatus: 'Conjunto óptico Full LED + DRL no máximo',
         cls: 'fx-led-active'
       },
       {
         src: 'assets/shi250/detalhes/roda.webp',
         alt: 'Roda raiada e freio a disco da SHI 250',
-        meter: 'EM MOVIMENTO',
-        status: 'Roda girando · experimente o freio',
+        meter: 'RODANDO',
+        status: 'Roda em movimento · teste a frenagem',
         action: 'Acionar freio a disco',
-        activeStatus: 'Freio acionado · desaceleração firme',
+        activeMeter: 'FREANDO',
+        activeStatus: 'Pinça acionada no disco · parada firme',
         cls: 'fx-brake-active'
       },
       {
         src: 'assets/shi250/detalhes/suspensao.webp',
         alt: 'Suspensão dianteira e conjunto trail da SHI 250',
-        meter: 'REPOUSO',
-        status: 'Suspensão em repouso',
+        meter: 'EM REPOUSO',
+        status: 'Suspensão trail pronta para impacto',
         action: 'Comprimir suspensão',
-        activeStatus: 'Absorvendo impacto · retorno progressivo',
+        activeMeter: 'AMORTECENDO',
+        activeStatus: 'Curso telescópico absorvendo impacto',
         cls: 'fx-fork-active'
       }
     ];
@@ -166,55 +309,59 @@
     const counter = document.getElementById('detailCounter');
     const meter = document.getElementById('detailEffectMeter');
     const statusEl = document.getElementById('detailEffectStatus');
-    const actionBtn = document.getElementById('detailAction');
-    const btns = Array.from(document.querySelectorAll('#detalhes .detail'));
-    let activeDetail = 0, fxTimer;
+    const oldActionBtn = document.getElementById('detailAction');
+    const oldBtns = Array.from(document.querySelectorAll('#detalhes .detail'));
 
-    const selectDetail = (idx) => {
-      activeDetail = idx;
-      clearTimeout(fxTimer);
-      const item = detailItems[idx];
-      if (photoBox) {
+    if (photoBox && oldBtns.length) {
+      // Clona botões para evitar conflito com app.js
+      const btns = oldBtns.map((b) => { const c = b.cloneNode(true); b.replaceWith(c); return c; });
+      const actionBtn = oldActionBtn ? (() => { const c = oldActionBtn.cloneNode(true); oldActionBtn.replaceWith(c); return c; })() : null;
+
+      let activeDetail = 0, fxTimer;
+
+      const selectDetail = (idx) => {
+        activeDetail = idx;
+        clearTimeout(fxTimer);
+        const item = detailItems[idx];
         photoBox.dataset.effect = String(idx);
         photoBox.classList.remove('fx-led-active', 'fx-brake-active', 'fx-fork-active');
-      }
-      if (detailImg) { detailImg.src = item.src; detailImg.alt = item.alt; }
-      if (counter) counter.textContent = `0${idx + 1} / 03`;
-      if (meter) meter.textContent = item.meter;
-      if (statusEl) statusEl.textContent = item.status;
-      if (actionBtn) { actionBtn.textContent = item.action; actionBtn.setAttribute('aria-pressed', 'false'); }
-      btns.forEach((b, i) => {
-        const on = i === idx;
-        b.classList.toggle('active', on);
-        b.setAttribute('aria-expanded', String(on));
-        const txt = document.getElementById(`detail${i}`);
-        if (txt) txt.hidden = !on;
-        const plus = b.querySelector('.detail-plus');
-        if (plus) plus.textContent = on ? '−' : '+';
-      });
-    };
-
-    btns.forEach((b, i) => b.addEventListener('click', () => selectDetail(i)));
-
-    actionBtn?.addEventListener('click', () => {
-      const item = detailItems[activeDetail];
-      if (!photoBox || !item) return;
-      clearTimeout(fxTimer);
-      photoBox.classList.remove('fx-led-active', 'fx-brake-active', 'fx-fork-active');
-      void photoBox.offsetWidth;
-      photoBox.classList.add(item.cls);
-      actionBtn.setAttribute('aria-pressed', 'true');
-      if (statusEl) statusEl.textContent = item.activeStatus;
-      if (meter) meter.textContent = 'ATIVO';
-      fxTimer = setTimeout(() => {
-        photoBox.classList.remove(item.cls);
-        actionBtn.setAttribute('aria-pressed', 'false');
-        if (statusEl) statusEl.textContent = item.status;
+        if (detailImg) { detailImg.src = item.src; detailImg.alt = item.alt; }
+        if (counter) counter.textContent = `0${idx + 1} / 03`;
         if (meter) meter.textContent = item.meter;
-      }, 2200);
-    });
+        if (statusEl) statusEl.textContent = item.status;
+        if (actionBtn) { actionBtn.textContent = item.action; actionBtn.setAttribute('aria-pressed', 'false'); }
+        btns.forEach((b, i) => {
+          const on = i === idx;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-expanded', String(on));
+          const txt = document.getElementById(`detail${i}`);
+          if (txt) txt.hidden = !on;
+          const plus = b.querySelector('.detail-plus');
+          if (plus) plus.textContent = on ? '−' : '+';
+        });
+      };
 
-    if (btns.length) selectDetail(0);
+      btns.forEach((b, i) => b.addEventListener('click', () => selectDetail(i)));
+
+      actionBtn?.addEventListener('click', () => {
+        const item = detailItems[activeDetail];
+        clearTimeout(fxTimer);
+        photoBox.classList.remove('fx-led-active', 'fx-brake-active', 'fx-fork-active');
+        void photoBox.offsetWidth;
+        photoBox.classList.add(item.cls);
+        actionBtn.setAttribute('aria-pressed', 'true');
+        if (statusEl) statusEl.textContent = item.activeStatus;
+        if (meter) meter.textContent = item.activeMeter;
+        fxTimer = setTimeout(() => {
+          photoBox.classList.remove(item.cls);
+          actionBtn.setAttribute('aria-pressed', 'false');
+          if (statusEl) statusEl.textContent = item.status;
+          if (meter) meter.textContent = item.meter;
+        }, 2600);
+      });
+
+      selectDetail(0);
+    }
   };
 
   if (document.readyState === 'complete') setTimeout(initShi250Effects, 60);
