@@ -44,8 +44,7 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden && !sound.paused) stop(); });
   document.addEventListener('shineray:audio-start', e => { if (e.detail?.source !== 'intro') stop(); });
   new IntersectionObserver(entries => { if (!entries[0].isIntersecting && !sound.paused) stop(); }).observe(hero);
-  if (!document.getElementById('brandEntry') && !preference()) start();
-  else show(false, 'Ouvir partida', 'Som silenciado · toque para ouvir');
+  show(false, 'Ouvir partida', 'Toque para ouvir o ronco do motor');
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   if (matchMedia('(pointer: fine)').matches) {

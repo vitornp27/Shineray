@@ -4,13 +4,15 @@ const menu=document.getElementById('mobileMenu'),toggle=document.getElementById(
 function closeMenu(){menu.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Abrir menu');toggle.innerHTML='Menu <span>+</span>'}
 toggle.addEventListener('click',()=>{const open=menu.hidden;menu.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');toggle.innerHTML=open?'Fechar <span>−</span>':'Menu <span>+</span>'});menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 const number='5535998174929';window.SHINERAY_WHATSAPP_NUMBER=number;document.querySelectorAll('[data-wa]').forEach(a=>a.href=`https://wa.me/${number}?text=${encodeURIComponent(a.dataset.wa)}`);
-const floatingWhatsApp=document.querySelector('.whatsapp'),interactiveStudio=document.getElementById('explorar');
-if(floatingWhatsApp&&interactiveStudio&&'IntersectionObserver' in window&&matchMedia('(max-width: 700px)').matches){
- const studioObserver=new IntersectionObserver(entries=>{
-  const visible=entries.some(entry=>entry.isIntersecting);
-  floatingWhatsApp.classList.toggle('is-hidden',visible);
- },{threshold:0,rootMargin:'0px'});
- studioObserver.observe(interactiveStudio);
+const floatingWhatsApp=document.querySelector('.whatsapp');
+const hideZones=document.querySelectorAll('#explorar,#financeWhatsapp,#testRideWhatsapp,#contactForm button[type="submit"],#catalogSearch');
+if(floatingWhatsApp&&hideZones.length&&'IntersectionObserver' in window&&matchMedia('(max-width: 700px)').matches){
+ const visibleZones=new Set();
+ const waObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting)visibleZones.add(entry.target);else visibleZones.delete(entry.target);});
+  floatingWhatsApp.classList.toggle('is-hidden',visibleZones.size>0);
+ },{threshold:0.1});
+ hideZones.forEach(el=>waObserver.observe(el));
 }
 
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const model=document.getElementById('model').value,interest=document.querySelector('input[name="interest"]:checked').value;const message=`Olá, Shineray Poços de Caldas! Vim pelo site. Meu interesse: ${model}. Gostaria de ${interest.toLowerCase()}.`;if(typeof window.trackEvent==='function'){window.trackEvent('whatsapp_lead',{origem:'contact_form',modelo:model});}window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');});

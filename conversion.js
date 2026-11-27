@@ -94,6 +94,7 @@
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   let options = Object.keys(MODELOS);
+  const catalogImages = {};
   const compareA = $('compareModelA');
   const compareB = $('compareModelB');
   const financeModel = $('financeModel');
@@ -108,20 +109,22 @@
 
   function renderCompare() {
     if (!compareA || !compareB) return;
-    const names = [compareA.value, compareB.value];
-    $('compareResults').innerHTML = names.map((name, index) => {
-      const m = MODELOS[name];
-      if (!m) return '';
-      const message = `Olá! Quero conhecer melhor a ${name}. Poderiam me passar disponibilidade e condições?`;
-      return `<article class="compare-card"><div class="compare-card-top"><span>MODELO 0${index + 1}</span><h4>${esc(name)}</h4><a href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">Ficha oficial ↗</a></div><dl>${[
-        ['Categoria / uso', m.categoria],
-        ['Cilindrada / Potência', m.cc],
-        ['Partida', m.partida],
-        ['Freios', m.freios],
-        ['Consumo / Autonomia', m.consumo],
-        ['Destaque principal', m.destaque]
-      ].map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl><a class="button red compare-wa" data-wa-origin="comparador" href="${wa(message)}" target="_blank" rel="noopener noreferrer">Quero essa no WhatsApp <span aria-hidden="true">↗</span></a></article>`;
-    }).join('');
+    const nameA = compareA.value, nameB = compareB.value;
+    const mA = MODELOS[nameA], mB = MODELOS[nameB];
+    if (!mA || !mB) return;
+    const priceTxt = n => PRECOS_BASE[n] ? PRECOS_BASE[n].toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }) : 'Sob consulta';
+    const rows = [
+      ['Preço base', priceTxt(nameA), priceTxt(nameB)],
+      ['Categoria / uso', mA.categoria, mB.categoria],
+      ['Cilindrada', mA.cc, mB.cc],
+      ['Partida', mA.partida, mB.partida],
+      ['Freios', mA.freios, mB.freios],
+      ['Consumo / Autonomia', mA.consumo, mB.consumo],
+      ['Destaque principal', mA.destaque, mB.destaque]
+    ];
+    const colHead = (name, m, idx) => '<div class="compare-col-head"><span>MODELO 0' + idx + '</span><h4>' + esc(name) + '</h4>' + (catalogImages[name] ? '<div class="compare-thumb"><img src="' + esc(catalogImages[name]) + '" alt="' + esc(name) + '" loading="lazy"></div>' : '') + '<a class="compare-official" href="' + esc(m.url) + '" target="_blank" rel="noopener noreferrer">Ficha oficial ↗</a></div>';
+    const actionCard = name => '<article class="compare-card"><h4>' + esc(name) + '</h4><a class="button red compare-wa" data-wa-origin="comparador" href="' + wa('Olá! Quero conhecer melhor a ' + name + '. Poderiam me passar disponibilidade e condições?') + '" target="_blank" rel="noopener noreferrer">Quero esta ↗</a></article>';
+    $('compareResults').innerHTML = '<div class="compare-table-wrap"><div class="compare-table-head">' + colHead(nameA, mA, 1) + colHead(nameB, mB, 2) + '</div><div class="compare-rows">' + rows.map(([l, a, b]) => '<div class="compare-row"><div class="compare-row-label">' + esc(l) + '</div><div class="compare-row-vals"><div>' + esc(a) + '</div><div>' + esc(b) + '</div></div></div>').join('') + '</div><div class="compare-table-actions">' + actionCard(nameA) + actionCard(nameB) + '</div></div>';
   }
 
   const brl = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 2 });
@@ -209,6 +212,7 @@
       if (!Array.isArray(catalog) || !catalog.length) return;
       const preferred = ['JET 125 EFI', 'JEF 170', 'SHI 175 S', 'SHI 175s EFI', 'SHI 250'];
       catalog.forEach(p => {
+        if (p.image) catalogImages[p.name] = p.image;
         if (!MODELOS[p.name]) MODELOS[p.name] = buildFromCatalog(p);
         if (typeof p.price === 'number') PRECOS_BASE[p.name] = p.price;
         else if (!(p.name in PRECOS_BASE)) PRECOS_BASE[p.name] = null;
