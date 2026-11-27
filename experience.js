@@ -1028,3 +1028,6 @@
   if (document.readyState === 'complete') setTimeout(initCatalogEnhancements, 120);
   else window.addEventListener('load', () => setTimeout(initCatalogEnhancements, 120));
 })();
+
+/* Controle do botao Voltar ao topo acima do WhatsApp */
+(()=>{const init=()=>{const b=document.getElementById("backToTop");if(!b)return;const pos=()=>{const w=document.querySelector(".whatsapp");if(!w)return;const r=w.getBoundingClientRect();if(r.width>0&&r.height>0){const rg=Math.max(10,Math.round(window.innerWidth-r.right+(r.width<=70?(r.width-46)/2:0)));b.style.right=rg+"px";b.style.bottom=Math.round(window.innerHeight-r.top+10)+"px"}};const tog=()=>b.classList.toggle("is-visible",window.scrollY>200);b.addEventListener("click",e=>{e.preventDefault();window.scrollTo({top:0,behavior:"smooth"})});window.addEventListener("scroll",tog,{passive:true});window.addEventListener("resize",pos,{passive:true});window.addEventListener("load",pos);pos();tog()};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()})();
