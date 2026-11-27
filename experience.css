@@ -532,3 +532,20 @@ footer .footer-bottom span:first-child {
 .back-to-top.is-visible{opacity:1;transform:translateY(0);pointer-events:auto}
 .back-to-top:hover,.back-to-top:active{background:#d71920;border-color:#d71920;transform:translateY(-2px)}
 @media(max-width:650px){.back-to-top{right:12px;bottom:70px;width:46px;height:46px}}
+
+/* Comparador no computador: largura total alinhado sob Modelo 1 e Modelo 2 + cards maiores */
+@media (min-width: 768px) {
+  #comparador .compare-selects { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 24px !important; }
+  #comparador .compare-results { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 24px !important; width: 100% !important; max-width: 100% !important; font-size: 16px !important; }
+  #comparador .compare-results > :only-child { grid-column: 1 / -1 !important; width: 100% !important; max-width: 100% !important; padding: 28px !important; }
+  #comparador .compare-results > :only-child > * { gap: 24px !important; }
+  #comparador .compare-results [class*="card"] { padding: 24px !important; }
+  #comparador .compare-results [class*="row"] { padding-top: 16px !important; padding-bottom: 16px !important; font-size: 16px !important; }
+  #comparador .compare-results h3, #comparador .compare-results h4 { font-size: 28px !important; line-height: 1.15 !important; }
+  #comparador .compare-results :has(> img:only-child) { height: 240px !important; min-height: 240px !important; max-height: none !important; padding: 16px !important; margin: 14px 0 !important; border-radius: 16px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  #comparador .compare-results img { width: 100% !important; height: 100% !important; max-height: 210px !important; object-fit: contain !important; }
+  #comparador .compare-results dt, #comparador .compare-results th, #comparador .compare-results small { font-size: 12px !important; letter-spacing: 1px !important; }
+  #comparador .compare-results dd, #comparador .compare-results td, #comparador .compare-results p, #comparador .compare-results li, #comparador .compare-results strong { font-size: 16px !important; line-height: 1.5 !important; }
+  #comparador .compare-results a { font-size: 14px !important; }
+  #comparador .compare-results .button, #comparador .compare-results .compare-wa, #comparador .compare-results a[href*="wa.me"], #comparador .compare-results button { min-height: 54px !important; font-size: 16px !important; padding: 14px 24px !important; }
+}
