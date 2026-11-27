@@ -554,6 +554,6 @@ footer .footer-bottom span:first-child {
 .machine-stage.night-mode .signal{box-shadow:0 0 7px 3px rgba(255,178,38,.95),0 0 14px 4px rgba(255,136,0,.55)!important}
 .machine-stage:not(.moving):not(.braking) .signal-left{left:48.4%!important;top:37.5%!important}
 .machine-stage:not(.moving):not(.braking) .signal-right{left:59.4%!important;top:37.5%!important}
-.machine-stage.braking .signal-left{left:48.2%!important;top:47.2%!important}
-.machine-stage.braking .signal-right{left:57.9%!important;top:46.6%!important}
+.machine-stage.braking .signal-left{left:48.0%!important;top:43.2%!important}
+.machine-stage.braking .signal-right{left:58.0%!important;top:42.8%!important}
 /* PISCABRANCO_END */
