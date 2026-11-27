@@ -552,8 +552,8 @@ footer .footer-bottom span:first-child {
 /* PISCABRANCO_START */
 .machine-stage .signal{width:1.8%!important;height:.9%!important;border-radius:999px!important;background:#ffb72b!important;box-shadow:0 0 5px 2px rgba(255,174,37,.9),0 0 11px 3px rgba(255,136,0,.45)!important}
 .machine-stage.night-mode .signal{box-shadow:0 0 8px 3px rgba(255,178,38,.95),0 0 16px 5px rgba(255,136,0,.55)!important}
-.machine-stage:not(.moving):not(.braking) .signal-left{left:47.9%!important;top:35.8%!important}
-.machine-stage:not(.moving):not(.braking) .signal-right{left:58.7%!important;top:35.8%!important}
+.machine-stage:not(.moving):not(.braking) .signal-left{left:47.2%!important;top:37.4%!important}
+.machine-stage:not(.moving):not(.braking) .signal-right{left:60.4%!important;top:37.4%!important}
 .machine-stage.braking .signal-left{left:48.8%!important;top:49.5%!important}
 .machine-stage.braking .signal-right{left:57.4%!important;top:49.0%!important}
 /* PISCABRANCO_END */
