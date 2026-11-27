@@ -1,3 +1,4 @@
+/* 1. Sticky no Estúdio Interativo sem desalinhar luzes nem encostar no rótulo inferior */
 .explorer {
   overflow-x: clip !important;
   overflow-y: visible !important;
@@ -6,30 +7,55 @@
   #viewLive .live-grid { align-items: start; }
   #viewLive .machine-stage {
     position: sticky;
-    top: 8px;
+    top: 6px;
     z-index: 25;
-    aspect-ratio: 1.35;
-    max-height: 40svh;
+    width: 100%;
+    aspect-ratio: 1.32;
+    max-height: 36svh;
     margin-bottom: 14px;
-    box-shadow: 0 14px 32px rgba(0, 0, 0, .42);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .48);
   }
-  #viewLive .machine-stage .machine-frame { max-height: 100%; }
+  #viewLive .machine-stage .machine-frame {
+    width: 112% !important;
+    left: -9% !important;
+    top: -5% !important;
+  }
+  #viewLive .machine-stage .floor-label {
+    bottom: 8px !important;
+    z-index: 8;
+  }
   #viewLive .cockpit { position: relative; z-index: 10; }
 }
+
+/* 2. Cards do catálogo no mobile: preço empilhado + botões simétricos */
 .model-price {
-  display: block;
-  margin: 0 0 10px;
-  font: 600 13px/1.3 'Space Grotesk', system-ui, sans-serif;
-  color: #171719;
-  letter-spacing: .01em;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 2px !important;
+  margin: 4px 0 8px !important;
+  font: 700 15px/1.2 'Space Grotesk', system-ui, sans-serif !important;
+  color: #171719 !important;
+  letter-spacing: -.01em;
 }
 .model-price small {
-  font: 500 10px/1 monospace;
-  color: #6b7275;
-  text-transform: uppercase;
-  margin-right: 4px;
+  display: block !important;
+  font: 500 9px/1.2 monospace !important;
+  letter-spacing: .08em !important;
+  color: #6b7275 !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
 }
 .model-img img { transition: opacity .25s ease; }
+#loadMore {
+  margin: 22px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 340px;
+}
 @media (max-width: 650px) {
   .model-grid {
     display: grid !important;
@@ -39,25 +65,59 @@
     border-bottom: 0 !important;
   }
   .model-card {
-    padding: 14px !important;
+    padding: 13px !important;
     background: #fff;
     border: 1px solid var(--line) !important;
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
   }
   .model-card + .model-card { border-left: 1px solid var(--line) !important; }
   .model-card.is-orphan {
     grid-column: 1 / -1;
-    max-width: 320px;
+    max-width: 300px;
     width: 100%;
     margin: 0 auto;
   }
-  .model-img { height: 132px !important; }
-  .model-card h3 { font-size: 16px !important; margin-top: 6px; }
-  .model-card p { font-size: 11px !important; margin-bottom: 10px !important; }
-  .model-actions { margin-top: auto; gap: 8px; }
+  .model-img { height: 124px !important; }
+  .model-card h3 { font-size: 15px !important; margin: 6px 0 4px !important; min-height: 0 !important; }
+  .model-card p { font-size: 11px !important; line-height: 1.45 !important; margin: 0 0 8px !important; min-height: 0 !important; }
+  .model-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    margin-top: auto !important;
+    padding-top: 10px !important;
+    border-top: 1px solid #ececef !important;
+  }
+  .model-actions button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 36px !important;
+    padding: 8px 10px !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+    background: #fafafa !important;
+    color: #171719 !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+  }
+  .model-actions a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 36px !important;
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+  }
 }
+
+/* 3. Comparador lado a lado com miniaturas contidas (sem vazar sobre textos) */
 .compare-table-wrap {
   background: #1b1b1e;
   border: 1px solid #37363a;
@@ -69,21 +129,49 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border-bottom: 1px solid #ffffff1a;
 }
-.compare-col-head { padding: 18px 14px; min-width: 0; }
+.compare-col-head {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  min-width: 0;
+}
 .compare-col-head + .compare-col-head { border-left: 1px solid #ffffff14; }
 .compare-col-head > span { display: block; font-size: 9px; letter-spacing: .16em; color: #d84a40; }
-.compare-col-head h4 { font-size: clamp(16px, 4vw, 22px); margin: 6px 0 8px; }
+.compare-col-head h4 { font-size: clamp(15px, 4vw, 21px); margin: 6px 0 10px; line-height: 1.15; }
 .compare-thumb {
-  height: 92px;
-  display: grid;
-  place-items: center;
-  background: #fff;
-  border-radius: 6px;
-  padding: 6px;
-  margin-bottom: 10px;
+  position: relative !important;
+  width: 100% !important;
+  height: 92px !important;
+  max-height: 92px !important;
+  flex: 0 0 92px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,.12), rgba(255,255,255,.02) 74%) !important;
+  border: 1px solid rgba(255,255,255,.09) !important;
+  border-radius: 8px !important;
+  padding: 8px !important;
+  margin: 0 0 10px !important;
+  box-sizing: border-box !important;
 }
-.compare-thumb img { max-height: 100%; max-width: 100%; object-fit: contain; }
-.compare-col-head a.compare-official { font-size: 11px; color: #aaa8a5; text-decoration: none; }
+.compare-thumb img {
+  position: static !important;
+  width: auto !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 76px !important;
+  object-fit: contain !important;
+  transform: none !important;
+  margin: 0 !important;
+  display: block !important;
+}
+.compare-col-head a.compare-official {
+  font-size: 11px;
+  color: #b4b2ae;
+  text-decoration: none;
+  margin-top: auto;
+}
 .compare-rows { display: grid; }
 .compare-row { border-bottom: 1px solid #ffffff12; padding: 10px 14px 12px; }
 .compare-row-label {
@@ -103,6 +191,8 @@
 @media (max-width: 650px) {
   .compare-selects { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; padding-right: 0 !important; }
 }
+
+/* 4. Avaliações do Google em carrossel horizontal no mobile */
 @media (max-width: 760px) {
   .review-grid {
     display: flex !important;
@@ -115,6 +205,33 @@
   .review-grid .review-card { flex: 0 0 82%; scroll-snap-align: start; padding: 18px !important; }
   .review-grid .review-card p { font-size: 12.5px !important; min-height: auto !important; }
 }
-.footer-ig { display: inline-flex; align-items: center; gap: 8px; color: #c8d3d7; transition: color .2s ease; }
-.footer-ig svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; }
-.footer-ig:hover { color: #fff; }
+
+/* 5. Ícone monocromático do Instagram no rodapé */
+.footer-ig-mono {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.04);
+  color: #e4e4e7 !important;
+  text-decoration: none;
+  transition: color .2s ease, border-color .2s ease, background .2s ease;
+}
+.footer-ig-mono:hover {
+  color: #ffffff !important;
+  border-color: #d71920;
+  background: rgba(215,25,32,.14);
+}
+.footer-ig-svg {
+  width: 20px !important;
+  height: 20px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 1.75 !important;
+  display: block;
+}

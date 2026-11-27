@@ -4,16 +4,25 @@ const menu=document.getElementById('mobileMenu'),toggle=document.getElementById(
 function closeMenu(){menu.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Abrir menu');toggle.innerHTML='Menu <span>+</span>'}
 toggle.addEventListener('click',()=>{const open=menu.hidden;menu.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');toggle.innerHTML=open?'Fechar <span>−</span>':'Menu <span>+</span>'});menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 const number='5535998174929';window.SHINERAY_WHATSAPP_NUMBER=number;document.querySelectorAll('[data-wa]').forEach(a=>a.href=`https://wa.me/${number}?text=${encodeURIComponent(a.dataset.wa)}`);
-const floatingWhatsApp=document.querySelector('.whatsapp');
-const hideZones=document.querySelectorAll('#explorar,#financeWhatsapp,#testRideWhatsapp,#contactForm button[type="submit"],#catalogSearch');
-if(floatingWhatsApp&&hideZones.length&&'IntersectionObserver' in window&&matchMedia('(max-width: 700px)').matches){
- const visibleZones=new Set();
- const waObserver=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{if(entry.isIntersecting)visibleZones.add(entry.target);else visibleZones.delete(entry.target);});
-  floatingWhatsApp.classList.toggle('is-hidden',visibleZones.size>0);
- },{threshold:0.1});
- hideZones.forEach(el=>waObserver.observe(el));
-}
+/* nota10-wa-start */
+(() => {
+  const waBtn = document.querySelector('.whatsapp');
+  if (!waBtn || !('IntersectionObserver' in window) || !matchMedia('(max-width: 760px)').matches) return;
+  const zones = document.querySelectorAll('#explorar,#catalogSearch,.button.red,.quiz-next,a[href*="wa.me/"]:not(.whatsapp)');
+  if (!zones.length) return;
+  const active = new Set();
+  const sync = () => {
+    const hide = active.size > 0;
+    waBtn.classList.toggle('is-hidden', hide);
+    document.body.classList.toggle('wa-hidden', hide);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => { if (en.isIntersecting) active.add(en.target); else active.delete(en.target); });
+    sync();
+  }, { threshold: 0.15 });
+  zones.forEach((el) => io.observe(el));
+})();
+/* nota10-wa-end */
 
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const model=document.getElementById('model').value,interest=document.querySelector('input[name="interest"]:checked').value;const message=`Olá, Shineray Poços de Caldas! Vim pelo site. Meu interesse: ${model}. Gostaria de ${interest.toLowerCase()}.`;if(typeof window.trackEvent==='function'){window.trackEvent('whatsapp_lead',{origem:'contact_form',modelo:model});}window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');});
 const detailData=[['assets/panel.webp','Painel digital da SHI 175'],['assets/brakes.webp','Rodas raiadas e freios a disco da SHI 175'],['assets/suspension.webp','Suspensão da SHI 175']];document.querySelectorAll('[data-detail]').forEach(btn=>btn.addEventListener('click',()=>{const n=Number(btn.dataset.detail);document.querySelectorAll('[data-detail]').forEach((b,i)=>{b.classList.toggle('active',i===n);b.setAttribute('aria-expanded',String(i===n));b.querySelector('.detail-text').hidden=i!==n;b.querySelector('.detail-plus').textContent=i===n?'−':'+'});const img=document.getElementById('detailImage');img.src=detailData[n][0];img.alt=detailData[n][1];document.getElementById('detailCounter').textContent=`0${n+1} / 03`;}));
