@@ -17,12 +17,27 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23d71920'/%3E%3Ctext x='15' y='47' font-size='44' font-family='Arial' font-weight='bold' fill='white'%3ES%3C/text%3E%3C/svg%3E">
 <link rel="preload" as="image" href="assets/catalog/shi-250.webp">
-<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="immersive.css"><link rel="stylesheet" href="premium.css"><link rel="stylesheet" href="text-motion.css"><link rel="stylesheet" href="ambient-motion.css"><link rel="stylesheet" href="key-cursor.css"><link rel="stylesheet" href="brand-arrival.css"><link rel="stylesheet" href="entry.css"><link rel="stylesheet" href="experience.css?v=12">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="immersive.css"><link rel="stylesheet" href="premium.css"><link rel="stylesheet" href="text-motion.css"><link rel="stylesheet" href="ambient-motion.css"><link rel="stylesheet" href="key-cursor.css"><link rel="stylesheet" href="brand-arrival.css"><link rel="stylesheet" href="entry.css"><link rel="stylesheet" href="detail-effects.css"><link rel="stylesheet" href="spin-live.css"><link rel="stylesheet" href="experience.css?v=12">
 <style>
 #rpmProgressBar{position:fixed;top:0;left:0;width:100%;height:3px;z-index:9999;pointer-events:none;transform-origin:left center;transform:scaleX(0);background:linear-gradient(90deg,#7f1d1d 0%,#d71920 68%,#ff4d4d 100%);box-shadow:0 0 12px rgba(239,68,68,.85);transition:opacity .25s ease;will-change:transform}
 #rpmProgressBar.is-hidden{opacity:0}
 .hero.shi250-hero .hero-bg-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:78% 52%;z-index:0;opacity:.38;filter:contrast(1.08) drop-shadow(0 24px 40px rgba(0,0,0,.7));pointer-events:none}
 @media(max-width:650px){.hero.shi250-hero .hero-bg-fallback{object-position:50% 42%;opacity:.32}}
+
+.studio-night-toggle{position:absolute;top:20px;right:20px;z-index:9;display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:8px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(17,17,19,.72);backdrop-filter:blur(10px);color:#f3f3ec;font:11px/1 monospace;cursor:pointer}
+.studio-night-toggle[aria-pressed="true"]{background:rgba(215,25,32,.2);border-color:#ef4444;box-shadow:0 0 18px rgba(215,25,32,.35)}
+.studio-night-toggle svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.9}
+.machine-stage.night-mode{background:radial-gradient(ellipse at 55% 42%,#121218 0%,#08080b 48%,#030305 88%)!important;box-shadow:inset 0 0 90px rgba(0,0,0,.92)}
+.machine-stage.night-mode .machine-frame>img{filter:brightness(.76) contrast(1.12) drop-shadow(0 22px 18px rgba(0,0,0,.95))}
+.machine-stage.night-mode.lights-on .headlamp{opacity:1;box-shadow:0 0 22px 10px #e8f6ff,0 0 55px 22px rgba(175,220,255,.72)}
+.machine-stage.night-mode.lights-on .headbeam{opacity:.65}
+.detail-photo.fx-led-active #detailImage{filter:brightness(1.38) contrast(1.16) drop-shadow(0 0 28px rgba(210,238,255,.85));transition:filter .35s ease}
+.detail-photo.fx-brake-active #detailImage{animation:brakePulse .45s ease-in-out 4;filter:contrast(1.15) saturate(1.2)}
+.detail-photo.fx-fork-active #detailImage{animation:forkBounce .7s cubic-bezier(.34,1.56,.64,1) 3}
+@keyframes brakePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035) translateX(-4px)}}
+@keyframes forkBounce{0%,100%{transform:translateY(0) scaleY(1)}45%{transform:translateY(10px) scaleY(.94)}}
+.spin-stage.spin-is-brake{box-shadow:inset 0 0 70px rgba(215,25,32,.38)}
+.spin-stage.spin-is-hazard::after{content:'';position:absolute;inset:0;border-radius:20px;border:2px solid rgba(255,174,37,.55);animation:indicator 1s step-end infinite;pointer-events:none}
 </style>
 </head>
 <body>
@@ -150,6 +165,84 @@
     <a class="text-link" href="#simulador-financeiro">Simule sua entrada e parcela <span>↘</span></a>
   </div>
   <span class="intro-mark" aria-hidden="true">↗</span>
+</section>
+
+
+<section class="anatomy-scroll" id="camadas" aria-labelledby="anatomyTitle">
+  <div class="anatomy-sticky">
+    <div class="anatomy-top">
+      <div><p class="tech-label">SHI 250 / ANATOMIA DO MOVIMENTO</p><h2 id="anatomyTitle">Cada parte.<br><span class="anatomy-accent">Uma sensação.</span></h2></div>
+      <p class="anatomy-instruction">Role para descobrir.<br>Veja os detalhes da SHI 250 se separarem<br>e tudo voltar a fazer sentido.</p>
+      <a class="anatomy-skip" href="#explorar">Ir para os comandos ↓</a>
+    </div>
+    <div class="anatomy-viewport">
+      <div class="anatomy-word" aria-hidden="true">MOVIMENTO</div>
+      <div class="anatomy-grid" aria-hidden="true"></div>
+      <div class="anatomy-scene" id="anatomyScene" role="img" aria-label="Moto SHI 250 com seis conjuntos visuais que se separam e se reúnem">
+        <div class="anatomy-shadow"></div>
+        <div class="anatomy-parts" id="anatomyParts">
+          <div class="anatomy-part" data-part="rear" data-x="-130" data-y="80" data-z="45" data-r="-9"><svg viewBox="0 0 900 600" aria-hidden="true"><defs><mask id="mask-rear" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="600"><rect width="900" height="600" fill="black"/><g fill="white"><ellipse cx="281" cy="403" rx="95" ry="92"/></g></mask></defs><image href="assets/shi250/cores/preta-cut.webp" width="900" height="600" mask="url(#mask-rear)"/><g class="part-marker"><circle cx="281" cy="295" r="13" fill="#101010" stroke="#d71920"/><text x="281" y="298" text-anchor="middle" fill="#f7f7f5" font-size="8" font-family="monospace">01</text></g></svg></div>
+          <div class="anatomy-part" data-part="front" data-x="125" data-y="83" data-z="100" data-r="9"><svg viewBox="0 0 900 600" aria-hidden="true"><defs><mask id="mask-front" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="600"><rect width="900" height="600" fill="black"/><g fill="white"><ellipse cx="668" cy="410" rx="98" ry="98"/></g><g fill="black"><ellipse cx="281" cy="403" rx="95" ry="92"/></g></mask></defs><image href="assets/shi250/cores/preta-cut.webp" width="900" height="600" mask="url(#mask-front)"/><g class="part-marker"><circle cx="705" cy="300" r="13" fill="#101010" stroke="#d71920"/><text x="705" y="303" text-anchor="middle" fill="#f7f7f5" font-size="8" font-family="monospace">02</text></g></svg></div>
+          <div class="anatomy-part" data-part="exhaust" data-x="-125" data-y="5" data-z="95" data-r="-8"><svg viewBox="0 0 900 600" aria-hidden="true"><defs><mask id="mask-exhaust" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="600"><rect width="900" height="600" fill="black"/><g fill="white"><path d="M208 245 L266 243 L374 289 L389 335 L366 350 L218 285 Z"/></g><g fill="black"><ellipse cx="281" cy="403" rx="95" ry="92"/><ellipse cx="668" cy="410" rx="98" ry="98"/></g></mask></defs><image href="assets/shi250/cores/preta-cut.webp" width="900" height="600" mask="url(#mask-exhaust)"/><g class="part-marker"><circle cx="205" cy="236" r="13" fill="#101010" stroke="#d71920"/><text x="205" y="239" text-anchor="middle" fill="#f7f7f5" font-size="8" font-family="monospace">03</text></g></svg></div>
+          <div class="anatomy-part" data-part="cockpit" data-x="110" data-y="-94" data-z="130" data-r="6"><svg viewBox="0 0 900 600" aria-hidden="true"><defs><mask id="mask-cockpit" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="600"><rect width="900" height="600" fill="black"/><g fill="white"><path d="M490 85 H680 L716 286 L607 306 L600 271 L593 251 L580 229 L584 218 L565 200 L501 195 Z"/></g><g fill="black"><ellipse cx="281" cy="403" rx="95" ry="92"/><ellipse cx="668" cy="410" rx="98" ry="98"/><path d="M208 245 L266 243 L374 289 L389 335 L366 350 L218 285 Z"/></g></mask></defs><image href="assets/shi250/cores/preta-cut.webp" width="900" height="600" mask="url(#mask-cockpit)"/><g class="part-marker"><circle cx="650" cy="105" r="13" fill="#101010" stroke="#d71920"/><text x="650" y="108" text-anchor="middle" fill="#f7f7f5" font-size="8" font-family="monospace">04</text></g></svg></div>
+          <div class="anatomy-part" data-part="body" data-x="-44" data-y="-120" data-z="180" data-r="-4"><svg viewBox="0 0 900 600" aria-hidden="true"><defs><mask id="mask-body" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="600"><rect width="900" height="600" fill="black"/><g fill="white"><path d="M150 170 H500 L570 225 L610 308 L535 316 L492 283 L446 305 L402 328 L354 290 L160 263 Z"/></g><g fill="black"><ellipse cx="281" cy="403" rx="95" ry="92"/><ellipse cx="668" cy="410" rx="98" ry="98"/><path d="M208 245 L266 243 L374 289 L389 335 L366 350 L218 285 Z"/><path d="M490 85 H680 L716 286 L607 306 L600 271 L593 251 L580 229 L584 218 L565 200 L501 195 Z"/></g></mask></defs><image href="assets/shi250/cores/preta-cut.webp" width="900" height="600" mask="url(#mask-body)"/><g class="part-marker"><circle cx="380" cy="175" r="13" fill="#101010" stroke="#d71920"/><text x="380" y="178" text-anchor="middle" fill="#f7f7f5" font-size="8" font-family="monospace">05</text></g></svg></div>
+          <div class="anatomy-part" data-part="engine" data-x="2" data-y="88" data-z="170" data-r="5"><svg viewBox="0 0 900 600" aria-hidden="true"><defs><mask id="mask-engine" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="600"><rect width="900" height="600" fill="black"/><g fill="white"><rect width="900" height="600"/></g><g fill="black"><ellipse cx="281" cy="403" rx="95" ry="92"/><ellipse cx="668" cy="410" rx="98" ry="98"/><path d="M208 245 L266 243 L374 289 L389 335 L366 350 L218 285 Z"/><path d="M490 85 H680 L716 286 L607 306 L600 271 L593 251 L580 229 L584 218 L565 200 L501 195 Z"/><path d="M150 170 H500 L570 225 L610 308 L535 316 L492 283 L446 305 L402 328 L354 290 L160 263 Z"/></g></mask></defs><image href="assets/shi250/cores/preta-cut.webp" width="900" height="600" mask="url(#mask-engine)"/><g class="part-marker"><circle cx="447" cy="447" r="13" fill="#101010" stroke="#d71920"/><text x="447" y="450" text-anchor="middle" fill="#f7f7f5" font-size="8" font-family="monospace">06</text></g></svg></div>
+        </div>
+        <span class="anatomy-coordinate coordinate-left" aria-hidden="true">( SHI / 250 )</span>
+        <span class="anatomy-coordinate coordinate-right" aria-hidden="true">ESTÚDIO / 3D</span>
+      </div>
+      <div class="anatomy-state"><span class="state-dot"></span><span id="anatomyState">TUDO SE CONECTA</span><span id="anatomyPercent">000</span></div>
+    </div>
+    <div class="part-selectors" role="group" aria-label="Destacar um conjunto da moto"><button type="button" data-focus-part="rear" aria-pressed="false"><span>01</span>Roda traseira</button><button type="button" data-focus-part="front" aria-pressed="false"><span>02</span>Roda dianteira</button><button type="button" data-focus-part="exhaust" aria-pressed="false"><span>03</span>Escape</button><button type="button" data-focus-part="cockpit" aria-pressed="false"><span>04</span>Frente e comandos</button><button type="button" data-focus-part="body" aria-pressed="false"><span>05</span>Carenagem e banco</button><button type="button" data-focus-part="engine" aria-pressed="false"><span>06</span>Motor 250 cc</button><button type="button" data-focus-part="all" aria-pressed="true"><span>↺</span>Ver tudo</button></div>
+    <div class="anatomy-console"><div class="anatomy-range"><label for="separation">Separação das camadas</label><input id="separation" type="range" min="0" max="100" step="1" value="0" aria-valuetext="Moto montada"></div><div class="anatomy-actions"><button type="button" id="assembleBike">Montar <span>↙</span></button><button type="button" id="explodeBike">Separar <span>↗</span></button><button type="button" id="scrollBike" aria-pressed="true">Acompanhar rolagem <span>↓</span></button></div></div>
+    <p class="anatomy-caption">Exploração visual em camadas da SHI 250. Separação ilustrativa dos conjuntos visíveis.</p>
+  </div>
+</section>
+
+<section class="explorer" id="explorar" aria-labelledby="exploreTitle">
+  <div class="explore-heading"><p class="eyebrow">SHI 250 / VOCÊ NO COMANDO</p><h2 id="exploreTitle">Dê vida à sua <em>SHI 250.</em></h2><p>Toque nos comandos. A experiência começa na partida.</p></div>
+  <div class="experience-tabs" role="tablist" aria-label="Experiência da SHI 250"><button role="tab" id="tabLive" aria-selected="true" aria-controls="viewLive">Ligar a moto <span>↗</span></button><button role="tab" id="tabSpin" aria-selected="false" aria-controls="view360" tabindex="-1">Explorar ângulos <span>↔</span></button></div>
+  <div id="viewLive" role="tabpanel" aria-labelledby="tabLive">
+    <div class="live-grid">
+      <div class="machine-stage" id="machineStage"><div class="studio-ring" aria-hidden="true"></div><span class="studio-label">SHI 250 <small>ESTÚDIO INTERATIVO</small></span><div class="road-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="machine-frame" id="machineFrame"><img id="machineImage" src="assets/shi250/cores/vermelha-cut.webp" loading="lazy" alt="Shineray SHI 250 no estúdio interativo"><span class="headlamp lamp-left" aria-hidden="true"></span><span class="headlamp lamp-right" aria-hidden="true"></span><span class="headbeam" aria-hidden="true"></span><span class="signal signal-left" aria-hidden="true"></span><span class="signal signal-right" aria-hidden="true"></span><span class="brake-lamp" aria-hidden="true"></span><span class="wheel-motion wheel-rear" aria-hidden="true"></span><span class="wheel-motion wheel-front" aria-hidden="true"></span></div><span class="floor-label" id="sceneLabel">PRONTA PARA A PARTIDA</span></div>
+      <div class="cockpit">
+        <div class="dash" id="dash"><div class="dash-top"><span id="dashLeft">◀</span><span>SHINERAY / SHI 250</span><span id="dashRight">▶</span></div><div class="speed"><strong id="speed">00</strong><span>km/h<br><small>VIRTUAL</small></span></div><div class="rpm-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="dash-bottom"><span id="gearDisplay">—</span><span id="rpmText">IGNIÇÃO DESLIGADA</span><span id="lightDisplay">LUZ OFF</span></div></div>
+        <button id="ignition" class="ignition" aria-pressed="false"><svg class="power-symbol" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v10"/><path d="M6.2 5.8a8 8 0 1 0 11.6 0"/></svg><span id="ignitionText">Dar partida</span><small>START / STOP</small></button>
+        <div class="machine-controls"><button id="headlight" aria-pressed="false" disabled>Farol <span>OFF</span></button><button id="highbeam" aria-pressed="false" disabled>Farol alto <span>OFF</span></button><button id="leftSignal" aria-pressed="false" disabled>← Seta esquerda</button><button id="rightSignal" aria-pressed="false" disabled>Seta direita →</button><button id="hazard" aria-pressed="false" disabled>Pisca-alerta <span>OFF</span></button><button id="horn" disabled>Buzina <span>♪</span></button></div>
+        <div class="throttle"><label for="throttle">Aceleração virtual <span id="throttleValue">0%</span></label><input id="throttle" type="range" min="0" max="100" step="1" value="0" disabled></div>
+        <div class="depth-control"><label for="depth">Perspectiva 3D <span>↔</span></label><input id="depth" type="range" min="-100" max="100" step="1" value="0"><button id="resetDepth" aria-label="Centralizar perspectiva">↺</button></div>
+        <div class="ride-actions"><button id="brake" disabled>Acionar freio <span>■</span></button><button id="sound" aria-pressed="false">Ativar som <span>♪</span></button></div>
+        <p id="machineStatus" class="machine-status" role="status">Dê partida para ativar os comandos.</p>
+      </div>
+    </div>
+    <p class="simulation-note">Experiência visual e sonora ilustrativa. Velocidade, som e painel simulados não representam medições exatas.</p>
+  </div>
+  <div id="view360" role="tabpanel" aria-labelledby="tabSpin" hidden>
+    <div class="spin-stage" id="spinStage"><div class="spin-name" aria-hidden="true">SHI 250</div><div class="orbit" aria-hidden="true"></div><div class="spin-machine"><img id="spinImage" src="assets/shi250/cores/vermelha-cut.webp" loading="lazy" alt="Vista interativa da Shineray SHI 250" draggable="false"></div><span class="spin-label">SHI 250 · VERMELHA</span><span class="spin-badge">GALERIA INTERATIVA <span>↔</span></span></div>
+    <div class="spin-live-controls"><span id="spinLiveStatus" role="status">● MOTOR LIGADO · LUZES ATIVAS</span><div><button id="spinPower" aria-pressed="true">⏻ Desligar</button><button id="spinHazards" aria-pressed="true">Pisca-alerta ON</button><button id="spinBrake" aria-pressed="false">Acionar freio</button></div></div>
+    <div class="spin-controls"><button class="round" id="spinPrev" aria-label="Ângulo anterior">←</button><div><label for="angle">Alterne entre as cores e ângulos da SHI 250.</label><input id="angle" type="range" min="1" max="4" value="1" aria-label="Ângulo da SHI 250"></div><button class="round" id="spinNext" aria-label="Próximo ângulo">→</button></div>
+  </div>
+</section>
+
+<section class="details-section section" id="detalhes">
+  <div class="details-head"><div class="section-label">[02 — OS DETALHES]</div><h2 class="reveal">De perto,<br><em>faz a diferença.</em></h2><p>Conheça o que faz parte da experiência SHI 250.</p></div>
+  <div class="detail-layout">
+    <div class="detail-photo" data-effect="0">
+      <div class="detail-visual">
+        <div class="detail-media"><img id="detailImage" src="assets/shi250/detalhes/led.webp" loading="lazy" alt="Iluminação Full LED com DRL da SHI 250"></div>
+        <span id="detailCounter">01 / 03</span>
+        <div class="detail-live-badge" aria-hidden="true"><i></i><span id="detailEffectMeter">FULL LED</span></div>
+      </div>
+      <div class="detail-effect-controls"><div><small>EXPLORE O FUNCIONAMENTO</small><p id="detailEffectStatus" aria-live="polite">Farol Full LED + DRL prontos</p></div><button id="detailAction" type="button" aria-pressed="false">Testar farol Full LED</button></div>
+      <p class="detail-effect-note">Efeitos ilustrativos sobre fotos reais da SHI 250.</p>
+    </div>
+    <div class="detail-list">
+      <button class="detail active" data-detail="0" aria-expanded="true" aria-controls="detail0"><span class="detail-n">01</span><span><strong>Iluminação FULL LED</strong><span class="detail-text" id="detail0">Farol Full LED integrado à luz DRL para máxima visibilidade em rodovias e uso noturno.</span></span><span class="detail-plus">−</span></button>
+      <button class="detail" data-detail="1" aria-expanded="false" aria-controls="detail1"><span class="detail-n">02</span><span><strong>Rodas e freios a disco</strong><span class="detail-text" id="detail1" hidden>Rodas raiadas de perfil trail com freios a disco nas duas rodas para frenagens seguras.</span></span><span class="detail-plus">+</span></button>
+      <button class="detail" data-detail="2" aria-expanded="false" aria-controls="detail2"><span class="detail-n">03</span><span><strong>Suspensão trail</strong><span class="detail-text" id="detail2" hidden>Suspensão dianteira reforçada e balança monoamortecida (monoshock) na traseira para encarar qualquer piso.</span></span><span class="detail-plus">+</span></button>
+      <a class="text-link" data-wa="Olá! Quero saber mais sobre a SHI 250." href="https://wa.me/5535998174929" target="_blank" rel="noopener">Conversar sobre a SHI 250 <span>↗</span></a>
+    </div>
+  </div>
 </section>
 
 <section class="conversion-section section" id="conversao" aria-label="Compare, simule e visite nossa loja">

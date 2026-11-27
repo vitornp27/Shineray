@@ -40,13 +40,13 @@
       stage.appendChild(toggle);
     }
 
-    // 3) Giro 3D interativo com os quadros extraídos da SHI 250
-    const spinFrames = Array.from({ length: 24 }, (_, i) => ({
-      src: `assets/shi250/spin/spin-${String(i + 1).padStart(2, '0')}.webp`,
-      label: `SHI 250 3D · ÂNGULO ${String(i + 1).padStart(2, '0')}/24`
-    }));
-    spinFrames.forEach((f) => { const p = new Image(); p.src = f.src; });
-
+    // 3) Aba Explorar Ângulos / 360° com fotos da SHI 250
+    const spinFrames = [
+      { src: 'assets/shi250/cores/vermelha-cut.webp', label: 'SHI 250 · VERMELHA' },
+      { src: 'assets/shi250/cores/preta-cut.webp', label: 'SHI 250 · PRETA (PERFIL)' },
+      { src: 'assets/shi250/cores/amarela.webp', label: 'SHI 250 · AMARELA' },
+      { src: 'assets/shi250/cores/branca.webp', label: 'SHI 250 · BRANCA' }
+    ];
     const angleInput = document.getElementById('angle');
     const spinImg = document.getElementById('spinImage');
     const spinLabel = document.querySelector('#view360 .spin-label');
@@ -108,29 +108,9 @@
       e.currentTarget.textContent = spinBrk ? 'Soltar freio' : 'Acionar freio';
       renderSpin();
     });
-
-    if (spinStage && !spinStage.dataset.dragReady) {
-      spinStage.dataset.dragReady = '1';
-      let dragging = false, startX = 0, startIdx = 0;
-      spinStage.addEventListener('pointerdown', (e) => {
-        dragging = true; startX = e.clientX; startIdx = spinIdx;
-        spinStage.setPointerCapture?.(e.pointerId);
-        spinStage.style.cursor = 'grabbing';
-      });
-      spinStage.addEventListener('pointermove', (e) => {
-        if (!dragging) return;
-        const step = Math.max(8, spinStage.clientWidth / (spinFrames.length * 1.15));
-        const delta = Math.round((e.clientX - startX) / step);
-        const next = Math.max(0, Math.min(spinFrames.length - 1, startIdx + delta));
-        if (next !== spinIdx) { spinIdx = next; renderSpin(); }
-      });
-      const stopDrag = () => { dragging = false; spinStage.style.cursor = 'grab'; };
-      spinStage.addEventListener('pointerup', stopDrag);
-      spinStage.addEventListener('pointercancel', stopDrag);
-    }
     renderSpin();
 
-    // 4) Secção "De perto, faz a diferença"
+    // 4) Seção "De perto, faz a diferença" (3 efeitos interativos da SHI 250)
     const detailItems = [
       {
         src: 'assets/shi250/detalhes/led.webp',
